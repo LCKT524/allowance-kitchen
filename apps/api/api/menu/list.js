@@ -11,7 +11,8 @@ export default async function handler(req, res) {
   if (category) params.set("category", `eq.${category}`);
   const r = await db(`menus?${params.toString()}`);
   if (!r.ok) {
-    res.status(500).json({ error: "db_error" });
+    const detail = await r.text();
+    res.status(500).json({ error: "db_error", status: r.status, detail });
     return;
   }
   const data = await r.json();

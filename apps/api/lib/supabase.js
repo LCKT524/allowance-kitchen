@@ -9,6 +9,7 @@ export async function db(path, init) {
     headers: {
       apikey: key,
       Authorization: `Bearer ${key}`,
+      Accept: "application/json",
       ...(init && init.headers ? init.headers : {}),
     },
   });
