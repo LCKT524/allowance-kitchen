@@ -1,7 +1,10 @@
 <view class="container">
   <view class="section">
     <view>订单：{{order.id}}（{{order.status}}） 总价：￥{{order.total_price}}</view>
-    <view wx:for="{{items}}" wx:key="id" class="line">{{item.quantity}} x {{item.menu_id}} 单价￥{{item.unit_price}}</view>
+    <view wx:if="{{loading}}">加载中...</view>
+    <view wx:else>
+      <view wx:for="{{items}}" wx:key="id" class="line">{{item.quantity}} x {{item.menu_name}}（{{item.menu_category}}） 单价￥{{item.unit_price}}</view>
+    </view>
   </view>
   <view class="section">
     <view class="messages" wx:for="{{messages}}" wx:key="id">{{item.sender_id}}：{{item.content}}</view>

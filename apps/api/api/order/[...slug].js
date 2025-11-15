@@ -96,7 +96,18 @@ async function detail(req, res, query) {
   if (!order) { res.status(404).json({ error: "not_found" }); return; }
   const ir = await db(`order_items?order_id=eq.${id}`);
   const items = ir.ok ? await ir.json() : [];
-  res.status(200).json({ order, items });
+  const menuIds = Array.from(new Set(items.map(i => i.menu_id))).filter(Boolean);
+  let menusMap = {};
+  if (menuIds.length) {
+    const params = new URLSearchParams();
+    params.set("select", "id,name,category");
+    params.set("id", `in.(${menuIds.join(',')})`);
+    const mr = await db(`menus?${params.toString()}`);
+    const ml = mr.ok ? await mr.json() : [];
+    for (const m of ml) menusMap[m.id] = { name: m.name, category: m.category };
+  }
+  const itemsEnriched = items.map(i => ({ ...i, menu_name: menusMap[i.menu_id]?.name || "", menu_category: menusMap[i.menu_id]?.category || "" }));
+  res.status(200).json({ order, items: itemsEnriched });
 }
 
 async function messagesSend(req, res) {
