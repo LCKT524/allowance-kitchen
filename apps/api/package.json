@@ -1,0 +1,14 @@
+{
+  "name": "allowance-kitchen-api",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vercel dev",
+    "build": "",
+    "start": "vercel start"
+  },
+  "dependencies": {
+    "node-fetch": "^3.3.2"
+  }
+}

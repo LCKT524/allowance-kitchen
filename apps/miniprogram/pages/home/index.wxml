@@ -1,0 +1,4 @@
+<view class="container">
+  <view class="title">零花钱厨房</view>
+  <button bindtap="onLogin">微信登录</button>
+</view>

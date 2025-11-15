@@ -1,0 +1,5 @@
+<view class="container">
+  <view wx:for="{{items}}" wx:key="id" class="item">
+    <navigator url="/pages/menu/detail?id={{item.id}}">{{item.name}}（{{item.category}}）</navigator>
+  </view>
+</view>

@@ -1,0 +1,6 @@
+<view class="container">
+  <view class="name">{{item.name}}</view>
+  <view>分类：{{item.category}}</view>
+  <view>用材：{{item.ingredients}}</view>
+  <view>做法：{{item.method}}</view>
+</view>
