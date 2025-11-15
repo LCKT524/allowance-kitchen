@@ -1,13 +1,21 @@
-<view class="container">
+<view class="page-wrap">
   <view class="tabs">
     <button class="tab" bindtap="showMine">我的订单</button>
     <button class="tab" bindtap="showAvailable">可接订单</button>
   </view>
-  <view wx:for="{{items}}" wx:key="id" class="item">
-    <view>订单：{{item.id}}（{{item.status}}） 总价：￥{{item.total_price}}</view>
-    <view class="actions">
-      <navigator url="/pages/order-detail/index?id={{item.id}}">查看</navigator>
-      <button wx:if="{{tab==='available'}}" bindtap="accept" data-id="{{item.id}}">接单</button>
+  <view wx:if="{{loading}}" class="card">加载中...</view>
+  <view wx:elif="{{error}}" class="error">{{error}}</view>
+  <view wx:else class="list">
+    <view wx:for="{{items}}" wx:key="id" class="card">
+      <view class="list-item">
+        <view>订单：{{item.id}}</view>
+        <view class="badge">{{item.status}}</view>
+      </view>
+      <view class="sub">总价：￥{{item.total_price}}</view>
+      <view class="actions">
+        <navigator url="/pages/order-detail/index?id={{item.id}}" class="btn btn-secondary">查看</navigator>
+        <button wx:if="{{tab==='available'}}" bindtap="accept" data-id="{{item.id}}" class="btn btn-primary">接单</button>
+      </view>
     </view>
   </view>
 </view>

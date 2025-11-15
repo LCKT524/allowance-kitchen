@@ -1,10 +1,12 @@
-<view class="container">
-  <view class="cart">
-    <view wx:for="{{menus}}" wx:key="id" class="line">
-      <checkbox checked="{{selected[item.id]}}" data-id="{{item.id}}" bindchange="toggle">{{item.name}}（{{item.category}}）</checkbox>
+<view class="page-wrap">
+  <view class="header">点餐</view>
+  <view class="sub">选择菜品与数量</view>
+  <view class="list">
+    <view wx:for="{{menus}}" wx:key="id" class="card list-item">
+      <checkbox checked="{{selected[item.id]}}" data-id="{{item.id}}" bindchange="toggle">{{item.name}}</checkbox>
       <input class="qty" type="number" value="{{quantities[item.id]||1}}" data-id="{{item.id}}" bindinput="setQty" />
     </view>
   </view>
-  <button bindtap="submit">提交订单</button>
-  <navigator url="/pages/ai-order/index">或去 AI 点餐</navigator>
+  <button bindtap="submit" class="btn btn-primary">提交订单</button>
+  <navigator url="/pages/ai-order/index" class="btn btn-secondary" style="margin-top:12rpx;display:inline-block;">去 AI 点餐</navigator>
 </view>

@@ -1,5 +1,12 @@
-<view class="container">
-  <view wx:for="{{items}}" wx:key="id" class="item">
-    <navigator url="/pages/menu/detail?id={{item.id}}">{{item.name}}（{{item.category}}）</navigator>
+<view class="page-wrap">
+  <view class="header">菜单</view>
+  <view class="sub">选择喜欢的菜品</view>
+  <view wx:if="{{loading}}" class="card">加载中...</view>
+  <view wx:elif="{{error}}" class="error">{{error}}</view>
+  <view wx:else class="list">
+    <view wx:for="{{items}}" wx:key="id" class="card list-item">
+      <navigator url="/pages/menu/detail?id={{item.id}}">{{item.name}}</navigator>
+      <view class="badge {{item.category==='meat'?'badge-meat':'badge-veg'}}">{{item.category==='meat'?'荤':'素'}}</view>
+    </view>
   </view>
 </view>

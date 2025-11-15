@@ -1,8 +1,9 @@
 import { request } from "../../utils/request";
 
 Page({
-  data: { order: {}, items: [], messages: [], loading: true },
-  onLoad(query) { this.id = query.id || ""; this.load(); this.loadMessages(); },
+  data: { order: {}, items: [], messages: [], loading: true, lastId: "top" },
+  onLoad(query) { this.id = query.id || ""; this.load(); this.startPolling(); },
+  onUnload() { if (this.timer) clearInterval(this.timer); },
   async load() {
     try {
       const d = await request(`/api/order/detail?id=${this.id}`);
@@ -14,7 +15,13 @@ Page({
   },
   async loadMessages() {
     const d = await request(`/api/order/messages/list?orderId=${this.id}`);
-    this.setData({ messages: d && d.items ? d.items : [] });
+    const list = d && d.items ? d.items : [];
+    const lastId = list.length ? list[list.length - 1].id : "top";
+    this.setData({ messages: list, lastId });
+  },
+  startPolling() {
+    this.loadMessages();
+    this.timer = setInterval(() => this.loadMessages(), 3000);
   },
   async send(e) {
     const content = e.detail.value.content;

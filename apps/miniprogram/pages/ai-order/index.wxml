@@ -1,9 +1,11 @@
-<view class="container">
-  <form bindsubmit="submit">
-    <textarea name="prompt" class="input" placeholder="和AI聊聊你想吃什么，如：今晚想吃清淡的素菜"></textarea>
-    <button formType="submit">生成菜谱并入库</button>
+<view class="page-wrap">
+  <view class="header">AI 点餐</view>
+  <view class="sub">告诉 AI 你的喜好</view>
+  <form bindsubmit="submit" class="card">
+    <textarea name="prompt" class="input" placeholder="如：今晚想吃清淡的素菜"></textarea>
+    <button formType="submit" class="btn btn-primary" style="margin-top:12rpx;">生成菜谱并入库</button>
   </form>
-  <view wx:if="{{item}}" class="result">
+  <view wx:if="{{item}}" class="card result">
     <view class="name">{{item.name}}（{{item.category}}）</view>
     <view>{{item.method}}</view>
   </view>

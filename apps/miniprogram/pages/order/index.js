@@ -2,7 +2,17 @@ import { request } from "../../utils/request";
 
 Page({
   data: { menus: [], selected: {}, quantities: {} },
-  onShow() { this.loadMenus(); },
+  onShow() { this.prefillCart(); this.loadMenus(); },
+  prefillCart() {
+    const cart = wx.getStorageSync("cart") || [];
+    const selected = {};
+    const quantities = {};
+    for (const it of cart) {
+      selected[it.menu_id] = true;
+      quantities[it.menu_id] = it.quantity || 1;
+    }
+    this.setData({ selected, quantities });
+  },
   async loadMenus() {
     const d = await request("/api/menu/list");
     this.setData({ menus: d && d.items ? d.items : [] });
@@ -24,6 +34,9 @@ Page({
     if (!items.length) return;
     const r = await request("/api/order/create", { method: "POST", data: { items } });
     const order = r && r.order ? r.order : null;
-    if (order) wx.navigateTo({ url: `/pages/order-detail/index?id=${order.id}` });
+    if (order) {
+      wx.removeStorageSync("cart");
+      wx.navigateTo({ url: `/pages/order-detail/index?id=${order.id}` });
+    }
   }
 })

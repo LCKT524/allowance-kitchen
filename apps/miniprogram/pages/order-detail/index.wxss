@@ -2,3 +2,6 @@
 .section{margin-bottom:24rpx}
 .line{padding:8rpx 0;border-bottom:1px solid #eee}
 .input{border:1px solid #ddd;padding:12rpx;margin:12rpx 0}
+.msgbox{background:#fafafa;border:1px solid #eee;border-radius:12rpx;padding:12rpx}
+.message{padding:8rpx 0}
+@import "../../styles/theme.wxss";

@@ -3,4 +3,5 @@
   <view>分类：{{item.category}}</view>
   <view>用材：{{item.ingredients}}</view>
   <view>做法：{{item.method}}</view>
+  <button class="add" bindtap="addToCart">加入购物车并下单</button>
 </view>
