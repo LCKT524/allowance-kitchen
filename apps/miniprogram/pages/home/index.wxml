@@ -1,4 +1,16 @@
-<view class="container">
-  <view class="title">零花钱厨房</view>
-  <button bindtap="onLogin">微信登录</button>
+<view class="page">
+  <view class="hero">
+    <view class="logo">零花钱厨房</view>
+    <view class="slogan">今天想吃什么？Ta来做</view>
+  </view>
+  <view class="card">
+    <view class="roles">
+      <button class="role husband" bindtap="selectRole" data-role="husband">我是老公</button>
+      <button class="role wife" bindtap="selectRole" data-role="wife">我是老婆</button>
+    </view>
+    <button class="primary" bindtap="onLogin">微信一键登录</button>
+    <view class="tip">登录后可点餐、接单、聊天</view>
+  </view>
+  <view class="decor decor1"></view>
+  <view class="decor decor2"></view>
 </view>

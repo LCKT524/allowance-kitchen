@@ -1,1 +1,10 @@
-<view class="container">AI 点餐</view>
+<view class="container">
+  <form bindsubmit="submit">
+    <textarea name="prompt" class="input" placeholder="和AI聊聊你想吃什么，如：今晚想吃清淡的素菜"></textarea>
+    <button formType="submit">生成菜谱并入库</button>
+  </form>
+  <view wx:if="{{item}}" class="result">
+    <view class="name">{{item.name}}（{{item.category}}）</view>
+    <view>{{item.method}}</view>
+  </view>
+</view>
