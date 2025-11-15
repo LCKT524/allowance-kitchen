@@ -5,6 +5,15 @@ Page({
     logged: false,
     role: ""
   },
+  onShow() {
+    const token = wx.getStorageSync("token") || "";
+    if (token) {
+      wx.reLaunch({
+        url: "/pages/menu/index",
+        fail: () => wx.redirectTo({ url: "/pages/menu/index" })
+      });
+    }
+  },
   selectRole(e) {
     const role = e.currentTarget.dataset.role;
     this.setData({ role });
@@ -31,6 +40,7 @@ Page({
           wx.setStorageSync("token", token);
           this.setData({ logged: !!token });
           wx.showToast({ title: "登录成功", icon: "success" });
+          wx.reLaunch({ url: "/pages/menu/index", fail: () => wx.redirectTo({ url: "/pages/menu/index" }) });
         } catch (e) {
           wx.showToast({ title: "网络错误，请稍后重试", icon: "none" });
         } finally {
