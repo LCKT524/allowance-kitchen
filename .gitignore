@@ -1,0 +1,11 @@
+node_modules/
+.DS_Store
+*.log
+.env
+.env.local
+.env.*
+.vercel/
+project.private.config.json
+apps/miniprogram/.cache/
+apps/miniprogram/miniprogram_npm/
+apps/miniprogram/.tea/
