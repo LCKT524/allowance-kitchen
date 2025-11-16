@@ -48,4 +48,6 @@ Page({
       }
     });
   }
+  ,
+  openChat() { wx.navigateTo({ url: "/pages/chat/index" }); }
 });

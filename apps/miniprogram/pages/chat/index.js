@@ -5,10 +5,15 @@ Page({
   onLoad(query) {
     const id = query.orderId || query.id || "";
     this.setData({ orderId: id });
-    this.load().then(() => this.startPolling());
+    if (id) {
+      this.load().then(() => this.startPolling());
+    } else {
+      this.setData({ loading: false });
+    }
   },
   onUnload() { if (this.timer) clearInterval(this.timer); },
   async load() {
+    if (!this.data.orderId) return;
     try {
       const d = await request(`/api/order/detail?id=${this.data.orderId}`);
       this.setData({ order: d && d.order ? d.order : {}, loading: false });
@@ -23,11 +28,12 @@ Page({
       this.setData({ messages: list, lastId });
     } catch { this.setData({ messages: [], lastId: "top" }); }
   },
-  startPolling() { this.loadMessages(); this.timer = setInterval(() => this.loadMessages(), 3000); },
+  startPolling() { if (!this.data.orderId) return; this.loadMessages(); this.timer = setInterval(() => this.loadMessages(), 3000); },
   async send(e) {
     const content = e.detail.value.content;
     if (!content) return;
     await request("/api/order/messages/send", { method: "POST", data: { orderId: this.data.orderId, content } });
     this.loadMessages();
-  }
+  },
+  openOrders() { wx.navigateTo({ url: "/pages/orders/index" }); }
 });

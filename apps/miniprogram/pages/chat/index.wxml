@@ -1,12 +1,19 @@
 <view class="chat-wrap">
-  <view class="chat-header">订单聊天</view>
-  <view class="chat-sub">订单：{{order.id}}（{{order.status}}）</view>
-  <scroll-view class="msgbox" scroll-y="true" scroll-into-view="{{lastId}}">
-    <view id="top"></view>
-    <view wx:for="{{messages}}" wx:key="id" id="{{item.id}}" class="message">{{item.sender_id}}：{{item.content}}</view>
-  </scroll-view>
-  <form bindsubmit="send" class="chat-form">
-    <input name="content" placeholder="输入消息" class="chat-input" />
-    <button formType="submit" class="chat-send">发送</button>
-  </form>
+  <view wx:if="{{orderId}}">
+    <view class="chat-header">订单聊天</view>
+    <view class="chat-sub">订单：{{order.id}}（{{order.status}}）</view>
+    <scroll-view class="msgbox" scroll-y="true" scroll-into-view="{{lastId}}">
+      <view id="top"></view>
+      <view wx:for="{{messages}}" wx:key="id" id="{{item.id}}" class="message">{{item.sender_id}}：{{item.content}}</view>
+    </scroll-view>
+    <form bindsubmit="send" class="chat-form">
+      <input name="content" placeholder="输入消息" class="chat-input" />
+      <button formType="submit" class="chat-send">发送</button>
+    </form>
+  </view>
+  <view wx:else>
+    <view class="chat-header">聊天</view>
+    <view class="chat-sub">请选择订单开始聊天</view>
+    <button class="chat-send" bindtap="openOrders">前往订单列表</button>
+  </view>
 </view>

@@ -1,6 +1,7 @@
 <view class="page">
   <view class="topbar">
     <button class="icon-btn">···</button>
+    <button class="icon-btn" bindtap="openChat">💬</button>
     <button class="icon-btn">○</button>
   </view>
   <view class="banner">
