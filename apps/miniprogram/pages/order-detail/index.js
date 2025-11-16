@@ -14,10 +14,14 @@ Page({
     }
   },
   async loadMessages() {
-    const d = await request(`/api/order/messages/list?orderId=${this.id}`);
-    const list = d && d.items ? d.items : [];
-    const lastId = list.length ? list[list.length - 1].id : "top";
-    this.setData({ messages: list, lastId });
+    try {
+      const d = await request(`/api/order/messages/list?orderId=${this.id}`);
+      const list = d && d.items ? d.items : [];
+      const lastId = list.length ? list[list.length - 1].id : "top";
+      this.setData({ messages: list, lastId });
+    } catch (e) {
+      this.setData({ messages: [], lastId: "top" });
+    }
   },
   startPolling() {
     this.loadMessages();

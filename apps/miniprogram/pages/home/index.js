@@ -7,12 +7,7 @@ Page({
   },
   onShow() {
     const token = wx.getStorageSync("token") || "";
-    if (token) {
-      wx.reLaunch({
-        url: "/pages/menu/index",
-        fail: () => wx.redirectTo({ url: "/pages/menu/index" })
-      });
-    }
+    this.setData({ logged: !!token });
   },
   selectRole(e) {
     const role = e.currentTarget.dataset.role;
