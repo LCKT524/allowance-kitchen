@@ -18,3 +18,4 @@
 .sheet{background:#fff;border-top-left-radius:24rpx;border-top-right-radius:24rpx;padding:24rpx;width:100%}
 .sheet-title{font-size:32rpx;color:#333;margin-bottom:12rpx}
 .sheet-actions{display:flex;justify-content:flex-end;gap:12rpx;margin-top:12rpx}
+.role .role-row{display:flex;gap:12rpx;margin-top:8rpx}

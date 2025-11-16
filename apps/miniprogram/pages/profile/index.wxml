@@ -15,6 +15,15 @@
     </view>
   </view>
 
+  <view class="card role">
+    <view class="admin-title">角色选择</view>
+    <view class="role-row">
+      <button class="btn {{role==='diner'?'btn-primary':'btn-secondary'}}" data-v="diner" bindtap="selectRole">点餐角色</button>
+      <button class="btn {{role==='courier'?'btn-primary':'btn-secondary'}}" data-v="courier" bindtap="selectRole">接单角色</button>
+    </view>
+    <view class="admin-tip">登录前请选择你的角色；角色将影响可见数据与权限</view>
+  </view>
+
   <view class="card shortcuts">
     <view class="short-row">
       <navigator url="/pages/menu/index" class="short-btn">菜单</navigator>

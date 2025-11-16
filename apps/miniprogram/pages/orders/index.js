@@ -1,9 +1,9 @@
 import { request } from "../../utils/request";
 
 Page({
-  data: { items: [], tab: "mine", loading: true, error: "", status: "all" },
+  data: { items: [], tab: "mine", loading: true, error: "", status: "all", role: "" },
   onLoad(query) { const tab = (query && query.tab) || ""; if (tab) this.setData({ tab }); this.updateTitle(); },
-  onShow() { this.load(); },
+  onShow() { const role = wx.getStorageSync("role") || ""; this.setData({ role }); this.load(); },
   updateTitle() { wx.setNavigationBarTitle({ title: this.data.tab === "available" ? "外送接单" : "我的订单" }); },
   showMine() { this.setData({ tab: "mine" }); this.updateTitle(); this.load(); },
   showAvailable() { this.setData({ tab: "available" }); this.updateTitle(); this.load(); },
@@ -39,10 +39,12 @@ Page({
       const id = e.currentTarget.dataset.id;
       const token = wx.getStorageSync("token") || "";
       if (!token) { wx.showToast({ title: "请先登录", icon: "none" }); wx.navigateTo({ url: "/pages/home/index" }); return; }
+      if ((this.data.role || "") !== "courier") { wx.showToast({ title: "需接单角色", icon: "none" }); return; }
       await request("/api/order/accept", { method: "POST", data: { orderId: id } });
       this.load();
     } catch (e) {
-      wx.showToast({ title: "接单失败", icon: "none" });
+      const msg = (e && e.error) ? e.error : "接单失败";
+      wx.showToast({ title: msg === "forbidden_self" ? "不能接自己的单" : "接单失败", icon: "none" });
     }
   },
   async start(e) {

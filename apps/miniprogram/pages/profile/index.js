@@ -13,7 +13,16 @@ Page({
     const at = wx.getStorageSync("admin_token") || "";
     this.setData({ logged: !!token, role, adminToken: at });
   },
+  selectRole(e) {
+    const v = e.currentTarget.dataset.v || "";
+    if (!v) return;
+    wx.setStorageSync("role", v);
+    this.setData({ role: v });
+    wx.showToast({ title: "角色已选择", icon: "success" });
+  },
   async goLogin() {
+    const role = this.data.role || wx.getStorageSync("role") || "";
+    if (!role) { wx.showToast({ title: "请先选择角色", icon: "none" }); return; }
     wx.showLoading({ title: "正在登录" });
     wx.login({
       success: async (res) => {

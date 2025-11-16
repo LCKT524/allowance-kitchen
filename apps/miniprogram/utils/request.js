@@ -16,6 +16,10 @@ export function request(path, options = {}) {
         ...(function(){
           const at = wx.getStorageSync("admin_token") || "";
           return at ? { "X-Admin-Token": at } : {};
+        })(),
+        ...(function(){
+          const role = wx.getStorageSync("role") || "";
+          return role ? { "X-Role": role } : {};
         })()
       },
       success: (res) => resolve(res.data),

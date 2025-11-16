@@ -76,6 +76,11 @@ async function accept(req, res) {
   if (!orderId || !openid) { res.status(400).json({ error: "missing_fields" }); return; }
   const uid = await ensureUser(openid);
   if (!uid) { res.status(401).json({ error: "user_not_found" }); return; }
+  const or = await db(`orders?id=eq.${orderId}`);
+  const od = or.ok ? await or.json() : [];
+  const order = Array.isArray(od) && od.length ? od[0] : null;
+  if (!order) { res.status(404).json({ error: "not_found" }); return; }
+  if (order.customer_id === uid) { res.status(403).json({ error: "forbidden_self" }); return; }
   const ur = await db("orders?id=eq." + orderId, {
     method: "PATCH",
     headers: { "Content-Type": "application/json", "Prefer": "return=representation" },
@@ -150,6 +155,7 @@ async function list(req, res, query) {
   const status = query.get("status") || undefined;
   const tk = parseToken(req);
   const openid = tk.openid || "";
+  const role = (req.headers["x-role"] || req.headers["X-Role"] || "").toString();
   let uid = "";
   if (openid) {
     const q = new URLSearchParams();
@@ -166,8 +172,15 @@ async function list(req, res, query) {
   if (type === "available") {
     params.set("accepted_by", "is.null");
     params.set("status", "eq.pending");
+    if (uid) params.set("customer_id", `neq.${uid}`);
   } else if (uid) {
-    params.set("or", `(customer_id.eq.${uid},accepted_by.eq.${uid})`);
+    if (role === "courier") {
+      params.set("accepted_by", `eq.${uid}`);
+    } else if (role === "diner") {
+      params.set("customer_id", `eq.${uid}`);
+    } else {
+      params.set("or", `(customer_id.eq.${uid},accepted_by.eq.${uid})`);
+    }
   }
   const r = await db(`orders?${params.toString()}`);
   if (!r.ok) { res.status(500).json({ error: "db_error" }); return; }
