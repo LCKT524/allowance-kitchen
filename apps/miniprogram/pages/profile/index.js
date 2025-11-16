@@ -31,11 +31,12 @@ Page({
     const role = this.data.role || wx.getStorageSync("role") || "";
     if (!role) { wx.showToast({ title: "请先选择角色", icon: "none" }); return; }
     wx.showLoading({ title: "正在登录" });
+    try { await request("/api/menu/list", { timeout: 5000, retry: 1 }); } catch (e) {}
     wx.login({
       success: async (res) => {
         try {
           const code = res.code;
-          let data = await request("/api/auth/wechat-login?strict=1", { method: "POST", data: { code } });
+          let data = await request("/api/auth/wechat-login?strict=1", { method: "POST", data: { code }, timeout: 30000, retry: 1 });
           if (data && data.error) {
             const dev = await request("/api/auth/wechat-login?dev=1");
             data = dev;

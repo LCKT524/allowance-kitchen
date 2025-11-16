@@ -1,4 +1,5 @@
 import fetch from "node-fetch";
+import AbortController from "abort-controller";
 import { db } from "../../lib/supabase.js";
 
 const appid = process.env.WECHAT_APPID || "";
@@ -37,7 +38,10 @@ export default async function handler(req, res) {
   }
   try {
     const url = `https://api.weixin.qq.com/sns/jscode2session?appid=${appid}&secret=${secret}&js_code=${code}&grant_type=authorization_code`;
-    const r = await fetch(url);
+    const ctrl = new AbortController();
+    const timer = setTimeout(() => ctrl.abort(), 8000);
+    const r = await fetch(url, { signal: ctrl.signal });
+    clearTimeout(timer);
     const data = await r.json();
     if (!data.openid) {
       if (strict) { res.status(401).json({ error: "wechat_auth_failed", detail: data }); return; }
