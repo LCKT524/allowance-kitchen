@@ -1,12 +1,18 @@
 @import "../../styles/theme.wxss";
 .filters{display:flex;flex-direction:column;gap:16rpx}
-.filter-tabs{display:flex;gap:12rpx}
-.search{border:1px solid #ddd;border-radius:12rpx;padding:12rpx}
+.filter-tabs{display:none}
+.seg-control{display:flex;background:#f5f5f5;border-radius:999rpx;padding:6rpx;gap:6rpx}
+.seg-item{flex:1;border:0;background:transparent;border-radius:999rpx;padding:12rpx 0;color:#666}
+.seg-item.active{background:#ff7a45;color:#fff}
+.search{border:1px solid #ddd;border-radius:999rpx;padding:14rpx 18rpx}
 @import "../../styles/theme.wxss";
 .left{display:flex;align-items:center;gap:12rpx}
 .item-name{flex:1}
 .right{display:flex;align-items:center;gap:12rpx}
 .del-btn{padding:12rpx 18rpx;font-size:24rpx}
+.list-item{position:relative;overflow:hidden}
+.slide-content{display:flex;align-items:center;justify-content:space-between;transition:transform 200ms}
+.del-overlay{position:absolute;right:24rpx;top:0;bottom:0;display:flex;align-items:center}
 .admin .admin-row{display:flex;justify-content:space-between;align-items:center;gap:12rpx}
 .admin-input{flex:1;border:1px solid #ddd;border-radius:12rpx;padding:14rpx}
 .
@@ -15,3 +21,11 @@
 .create .edit-textarea{border:1px solid #ddd;border-radius:12rpx;padding:14rpx;height:160rpx;margin-bottom:12rpx}
 .bulk .bulk-row{display:flex;justify-content:space-between;align-items:center}
 .bulk-actions{display:flex;gap:12rpx}
+
+.danger{background:#ff4d4f;color:#fff}
+.fab{position:fixed;right:24rpx;bottom:120rpx;width:88rpx;height:88rpx;border-radius:44rpx;background:#ff7a45;color:#fff;display:flex;align-items:center;justify-content:center;font-size:48rpx;box-shadow:0 12rpx 24rpx rgba(0,0,0,0.12);z-index:9}
+.overlay{position:fixed;left:0;right:0;top:0;bottom:0;background:rgba(0,0,0,0.35);display:flex;align-items:flex-end;z-index:10}
+.sheet{background:#fff;border-top-left-radius:24rpx;border-top-right-radius:24rpx;padding:24rpx;width:100%}
+.sheet-title{font-size:32rpx;color:#333;margin-bottom:12rpx}
+.sheet-sub{font-size:24rpx;color:#8a8a8a;margin-top:8rpx}
+.sheet-actions{display:flex;justify-content:flex-end;gap:12rpx;margin-top:12rpx}

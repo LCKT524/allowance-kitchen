@@ -50,7 +50,7 @@
       <view class="tab-icon">📋</view>
       <view class="tab-text">订单</view>
     </navigator>
-    <navigator url="/pages/menu/index" class="tab-item">
+    <navigator url="/pages/profile/index" class="tab-item">
       <view class="tab-icon">👤</view>
       <view class="tab-text">我的</view>
     </navigator>

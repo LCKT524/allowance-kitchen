@@ -1,43 +1,18 @@
 <view class="page-wrap">
-  <view class="header">菜单</view>
+  <view class="header" bindlongpress="toggleAdminPanel">菜单</view>
   <view class="sub">选择喜欢的菜品</view>
-  <view class="card admin">
-    <view class="admin-row">
-      <view>管理模式</view>
-      <switch checked="{{adminMode}}" bindchange="toggleAdmin" />
-    </view>
-    <view class="admin-row">
-      <input class="admin-input" placeholder="管理员令牌" value="{{adminToken}}" bindinput="onAdminTokenInput" />
-      <button class="btn btn-primary" bindtap="saveAdminToken">保存</button>
-      <button class="btn btn-secondary" bindtap="clearAdminToken">清除令牌</button>
-    </view>
-  </view>
+
   <view class="card filters">
-    <view class="filter-tabs">
-      <button class="btn" bindtap="setFilter" data-v="all">全部</button>
-      <button class="btn" bindtap="setFilter" data-v="meat">荤</button>
-      <button class="btn" bindtap="setFilter" data-v="vegetable">素</button>
+    <view class="seg-control">
+      <button class="seg-item {{categoryFilter==='all'?'active':''}}" bindtap="setFilter" data-v="all">全部</button>
+      <button class="seg-item {{categoryFilter==='meat'?'active':''}}" bindtap="setFilter" data-v="meat">荤</button>
+      <button class="seg-item {{categoryFilter==='vegetable'?'active':''}}" bindtap="setFilter" data-v="vegetable">素</button>
     </view>
     <input class="search" placeholder="搜索菜名" bindinput="onSearchInput" value="{{searchKey}}" />
   </view>
-  <view wx:if="{{adminMode}}" class="card create">
-    <view class="create-row">
-      <button class="btn btn-secondary" bindtap="toggleAddMode">{{addMode?"收起新增":"新增菜品"}}</button>
-    </view>
-    <view wx:if="{{addMode}}">
-      <input class="edit-input" placeholder="菜名" value="{{newName}}" bindinput="onNewName" />
-      <view class="edit-row">
-        <button class="btn {{newCategory==='meat'?'btn-primary':'btn-secondary'}}" data-v="meat" bindtap="onNewCategory">荤</button>
-        <button class="btn {{newCategory==='vegetable'?'btn-primary':'btn-secondary'}}" data-v="vegetable" bindtap="onNewCategory">素</button>
-      </view>
-      <textarea class="edit-textarea" placeholder="食材（用顿号分隔）" value="{{newIngredientsText}}" bindinput="onNewIngredients"></textarea>
-      <textarea class="edit-textarea" placeholder="做法" value="{{newMethodText}}" bindinput="onNewMethod"></textarea>
-      <button class="btn btn-primary" bindtap="createItem">新增菜单</button>
-    </view>
-  </view>
-  <view wx:if="{{adminMode}}" class="card bulk">
+  <view wx:if="{{adminMode && selectedCount>0}}" class="card bulk">
     <view class="bulk-row">
-      <view>已选 {{selectedCount}} 项（令牌{{adminMode?'已验证':'未验证'}}）</view>
+      <view>已选 {{selectedCount}} 项</view>
       <view class="bulk-actions">
         <button class="btn btn-secondary" bindtap="selectAll">全选</button>
         <button class="btn btn-secondary" bindtap="clearSelection">清空</button>
@@ -48,16 +23,51 @@
   <view wx:if="{{loading}}" class="card">加载中...</view>
   <view wx:elif="{{error}}" class="error">{{error}}</view>
   <view wx:else class="list">
-    <view wx:for="{{items}}" wx:key="id" class="card list-item">
-      <view class="left">
-        <checkbox-group wx:if="{{adminMode}}" bindchange="toggleSelect" data-id="{{item.id}}">
-          <checkbox value="{{item.id}}" checked="{{selectedMap[item.id]}}"></checkbox>
-        </checkbox-group>
-        <navigator url="/pages/menu/detail?id={{item.id}}" class="item-name">{{item.name}}</navigator>
+    <view wx:for="{{items}}" wx:key="id" class="card list-item" data-id="{{item.id}}" bindtouchstart="onItemTouchStart" bindtouchmove="onItemTouchMove" bindtouchend="onItemTouchEnd">
+      <view class="slide-content" style="transform: translateX({{slideMap[item.id]||0}}px);">
+        <view class="left">
+          <checkbox-group wx:if="{{adminMode}}" bindchange="toggleSelect" data-id="{{item.id}}">
+            <checkbox value="{{item.id}}" checked="{{selectedMap[item.id]}}"></checkbox>
+          </checkbox-group>
+          <navigator url="/pages/menu/detail?id={{item.id}}" class="item-name">{{item.name}}</navigator>
+        </view>
+        <view class="right">
+          <view class="badge {{item.category==='meat'?'badge-meat':'badge-veg'}}">{{item.category==='meat'?'荤':'素'}}</view>
+        </view>
       </view>
-      <view class="right">
-        <view class="badge {{item.category==='meat'?'badge-meat':'badge-veg'}}">{{item.category==='meat'?'荤':'素'}}</view>
-        <button wx:if="{{adminMode}}" class="btn btn-secondary del-btn" data-id="{{item.id}}" bindtap="deleteItem">删除</button>
+      <view wx:if="{{adminMode}}" class="del-overlay">
+        <button class="btn danger del-btn" data-id="{{item.id}}" bindtap="deleteItem">删除</button>
+      </view>
+    </view>
+  </view>
+
+  <view wx:if="{{adminMode}}" class="fab" bindtap="openAddPanel">＋</view>
+
+  <view wx:if="{{showAdminPanel}}" class="overlay" catchtouchmove="true" bindtap="closeAdminPanel">
+    <view class="sheet" catchtap="noop">
+      <view class="sheet-title">管理工具</view>
+      <view class="admin-row">
+        <input class="admin-input" placeholder="管理员令牌" value="{{adminToken}}" bindinput="onAdminTokenInput" />
+        <button class="btn btn-primary" bindtap="saveAdminToken">保存</button>
+        <button class="btn btn-secondary" bindtap="clearAdminToken">清除令牌</button>
+      </view>
+      <view class="sheet-sub">长按“菜单”标题打开本面板</view>
+    </view>
+  </view>
+
+  <view wx:if="{{showAddPanel}}" class="overlay" catchtouchmove="true" bindtap="closeAddPanel">
+    <view class="sheet" catchtap="noop">
+      <view class="sheet-title">新增菜品</view>
+      <input class="edit-input" placeholder="菜名" value="{{newName}}" bindinput="onNewName" />
+      <view class="edit-row">
+        <button class="btn {{newCategory==='meat'?'btn-primary':'btn-secondary'}}" data-v="meat" bindtap="onNewCategory">荤</button>
+        <button class="btn {{newCategory==='vegetable'?'btn-primary':'btn-secondary'}}" data-v="vegetable" bindtap="onNewCategory">素</button>
+      </view>
+      <textarea class="edit-textarea" placeholder="食材（用顿号分隔）" value="{{newIngredientsText}}" bindinput="onNewIngredients"></textarea>
+      <textarea class="edit-textarea" placeholder="做法" value="{{newMethodText}}" bindinput="onNewMethod"></textarea>
+      <view class="sheet-actions">
+        <button class="btn btn-secondary" bindtap="closeAddPanel">取消</button>
+        <button class="btn btn-primary" bindtap="createItem">新增</button>
       </view>
     </view>
   </view>

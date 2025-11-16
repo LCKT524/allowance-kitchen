@@ -15,7 +15,15 @@ Page({
     newIngredientsText: "",
     newMethodText: "",
     selectedMap: {},
-    selectedCount: 0
+    selectedCount: 0,
+    showAdminPanel: false,
+    showAddPanel: false,
+    slideMap: {}
+  },
+  onLoad(options) {
+    if (options && (options.openAdmin === '1' || options.openAdmin === 1)) {
+      this.setData({ showAdminPanel: true });
+    }
   },
   onShow() {
     const at = wx.getStorageSync("admin_token") || "";
@@ -29,7 +37,7 @@ Page({
       let items = (data && data.items) ? data.items : [];
       const key = (this.data.searchKey || "").trim();
       if (key) items = items.filter(i => (i.name || "").includes(key));
-      this.setData({ items, loading: false, error: "" });
+      this.setData({ items, loading: false, error: "", slideMap: {} });
     } catch (e) {
       this.setData({ loading: false, error: "加载失败，请稍后重试" });
     }
@@ -70,7 +78,36 @@ Page({
       return !!(r && r.ok);
     } catch { return false; }
   },
-  toggleAddMode() { this.setData({ addMode: !this.data.addMode }); },
+  toggleAdminPanel() { this.setData({ showAdminPanel: !this.data.showAdminPanel }); },
+  closeAdminPanel() { this.setData({ showAdminPanel: false }); },
+  openAddPanel() { if (!this.data.adminMode) return; this.setData({ showAddPanel: true }); },
+  closeAddPanel() { this.setData({ showAddPanel: false }); },
+  noop() {},
+  onItemTouchStart(e) {
+    const id = e.currentTarget.dataset.id;
+    const t = (e.touches && e.touches[0]) || {};
+    this._touchId = id;
+    this._startX = t.pageX || 0;
+    this._startY = t.pageY || 0;
+  },
+  onItemTouchMove(e) {
+    const id = e.currentTarget.dataset.id;
+    const t = (e.touches && e.touches[0]) || {};
+    const dx = (t.pageX || 0) - (this._startX || 0);
+    if (Math.abs(dx) < 5) return;
+    let val = 0;
+    if (dx < 0) val = Math.max(-120, dx);
+    const map = { ...this.data.slideMap, [id]: val };
+    this.setData({ slideMap: map });
+  },
+  onItemTouchEnd(e) {
+    const id = e.currentTarget.dataset.id;
+    const cur = this.data.slideMap[id] || 0;
+    const final = cur < -60 ? -120 : 0;
+    const map = { ...this.data.slideMap, [id]: final };
+    this.setData({ slideMap: map });
+    this._touchId = null;
+  },
   onNewName(e) { this.setData({ newName: e.detail.value || "" }); },
   onNewCategory(e) { const v = e.currentTarget.dataset.v; this.setData({ newCategory: v }); },
   onNewIngredients(e) { this.setData({ newIngredientsText: e.detail.value || "" }); },
@@ -86,7 +123,7 @@ Page({
       const item = r && r.item ? r.item : null;
       if (item) {
         wx.showToast({ title: "已新增", icon: "success" });
-        this.setData({ addMode: false, newName: "", newIngredientsText: "", newMethodText: "" });
+        this.setData({ showAddPanel: false, addMode: false, newName: "", newIngredientsText: "", newMethodText: "" });
         this.load();
       } else {
         wx.showToast({ title: "新增失败", icon: "none" });

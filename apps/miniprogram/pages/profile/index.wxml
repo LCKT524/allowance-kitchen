@@ -1,0 +1,48 @@
+<view class="page-wrap">
+  <view class="header">我的</view>
+  <view class="sub">账号与管理</view>
+
+  <view class="card user">
+    <view class="user-row">
+      <view class="avatar">👤</view>
+      <view class="user-info">
+        <view class="user-name">{{logged?"已登录":"未登录"}}</view>
+        <view class="user-role">{{role?role:"游客"}}</view>
+      </view>
+    </view>
+    <view class="user-actions">
+      <button wx:if="{{logged}}" class="btn btn-secondary" bindtap="logout">退出登录</button>
+      <button wx:elif="{{!logged}}" class="btn btn-primary" bindtap="goLogin">去登录</button>
+    </view>
+  </view>
+
+  <view class="card shortcuts">
+    <view class="short-row">
+      <navigator url="/pages/menu/index" class="short-btn">菜单</navigator>
+      <navigator url="/pages/ai-order/index" class="short-btn">AI点餐</navigator>
+      <navigator url="/pages/orders/index" class="short-btn">订单</navigator>
+    </view>
+  </view>
+
+  <view class="card admin">
+    <view class="admin-title">管理员入口</view>
+    <view class="admin-actions">
+      <button class="btn btn-primary" bindtap="goManage">打开管理入口</button>
+    </view>
+    <view class="admin-tip">进入后在菜单页进行管理操作</view>
+  </view>
+
+  <view wx:if="{{showAdminPanel}}" class="overlay" catchtouchmove="true" bindtap="closeAdminPanel">
+    <view class="sheet" catchtap="noop">
+      <view class="sheet-title">管理工具</view>
+      <view class="admin-row">
+        <input class="admin-input" placeholder="管理员令牌" value="{{adminToken}}" bindinput="onAdminTokenInput" />
+        <button class="btn btn-primary" bindtap="saveAdminToken">保存</button>
+        <button class="btn btn-secondary" bindtap="clearAdminToken">清除令牌</button>
+      </view>
+      <view class="sheet-actions">
+        <button class="btn btn-primary" bindtap="goManageMenu">前往菜单管理</button>
+      </view>
+    </view>
+  </view>
+</view>
