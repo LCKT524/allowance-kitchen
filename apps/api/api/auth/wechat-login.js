@@ -4,15 +4,17 @@ import { db } from "../../lib/supabase.js";
 const appid = process.env.WECHAT_APPID || "";
 const secret = process.env.WECHAT_SECRET || "";
 const fakeOpenid = process.env.WECHAT_DEV_FAKE_OPENID || "";
+const genDevOpenid = () => "dev_" + Math.random().toString(36).slice(2, 10);
 
 export default async function handler(req, res) {
   const urlObj = new URL(req.url, "http://localhost");
   const dev = urlObj.searchParams.get("dev");
   const qOpenid = urlObj.searchParams.get("openid") || "";
+  const strict = (urlObj.searchParams.get("strict") === "1") || ((req.headers["x-mode"] || req.headers["X-Mode"] || "") === "strict");
 
   if (req.method === "GET" && (dev === "1" || qOpenid)) {
-    const oid = qOpenid || fakeOpenid;
-    if (!oid) { res.status(500).json({ error: "missing_wechat_env" }); return; }
+    if (strict) { res.status(405).json({ error: "strict_mode" }); return; }
+    const oid = qOpenid || fakeOpenid || genDevOpenid();
     const token = Buffer.from(JSON.stringify({ openid: oid })).toString("base64");
     res.status(200).json({ token, user: { id: "", openid: oid } });
     return;
@@ -27,12 +29,10 @@ export default async function handler(req, res) {
     return;
   }
   if (!appid || !secret) {
-    if (fakeOpenid) {
-      const token = Buffer.from(JSON.stringify({ openid: fakeOpenid })).toString("base64");
-      res.status(200).json({ token, user: { id: "", openid: fakeOpenid } });
-      return;
-    }
-    res.status(500).json({ error: "missing_wechat_env" });
+    if (strict) { res.status(500).json({ error: "missing_wechat_env" }); return; }
+    const oid = fakeOpenid || genDevOpenid();
+    const token = Buffer.from(JSON.stringify({ openid: oid })).toString("base64");
+    res.status(200).json({ token, user: { id: "", openid: oid } });
     return;
   }
   try {
@@ -40,12 +40,10 @@ export default async function handler(req, res) {
     const r = await fetch(url);
     const data = await r.json();
     if (!data.openid) {
-      if (fakeOpenid) {
-        const token = Buffer.from(JSON.stringify({ openid: fakeOpenid })).toString("base64");
-        res.status(200).json({ token, user: { id: "", openid: fakeOpenid } });
-        return;
-      }
-      res.status(401).json({ error: "wechat_auth_failed", detail: data });
+      if (strict) { res.status(401).json({ error: "wechat_auth_failed", detail: data }); return; }
+      const oid = fakeOpenid || genDevOpenid();
+      const token = Buffer.from(JSON.stringify({ openid: oid })).toString("base64");
+      res.status(200).json({ token, user: { id: "", openid: oid } });
       return;
     }
     let userId = "";
@@ -69,11 +67,9 @@ export default async function handler(req, res) {
     const token = Buffer.from(JSON.stringify({ openid: data.openid })).toString("base64");
     res.status(200).json({ token, user: { id: userId, openid: data.openid } });
   } catch (err) {
-    if (fakeOpenid) {
-      const token = Buffer.from(JSON.stringify({ openid: fakeOpenid })).toString("base64");
-      res.status(200).json({ token, user: { id: "", openid: fakeOpenid } });
-      return;
-    }
-    res.status(500).json({ error: "wechat_request_failed" });
+    if (strict) { res.status(500).json({ error: "wechat_request_failed" }); return; }
+    const oid = fakeOpenid || genDevOpenid();
+    const token = Buffer.from(JSON.stringify({ openid: oid })).toString("base64");
+    res.status(200).json({ token, user: { id: "", openid: oid } });
   }
 }

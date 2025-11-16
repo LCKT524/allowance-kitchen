@@ -35,7 +35,7 @@ Page({
       success: async (res) => {
         try {
           const code = res.code;
-          let data = await request("/api/auth/wechat-login", { method: "POST", data: { code } });
+          let data = await request("/api/auth/wechat-login?strict=1", { method: "POST", data: { code } });
           if (data && data.error) {
             const dev = await request("/api/auth/wechat-login?dev=1");
             data = dev;
@@ -66,7 +66,7 @@ Page({
     } catch (e) {
       wx.showToast({ title: "接口不可达", icon: "none" });
     } finally { wx.hideLoading(); }
-  }
+  },
   logout() {
     wx.removeStorageSync("token");
     getApp().globalData.token = "";
