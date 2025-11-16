@@ -50,4 +50,12 @@ Page({
   }
   ,
   openChat() { wx.navigateTo({ url: "/pages/chat/index" }); }
+  ,
+  goHome() {
+    const pages = getCurrentPages();
+    const cur = pages[pages.length - 1] || {};
+    const route = cur.route || "";
+    if (route === "pages/home/index") return;
+    wx.reLaunch({ url: "/pages/home/index" });
+  }
 });

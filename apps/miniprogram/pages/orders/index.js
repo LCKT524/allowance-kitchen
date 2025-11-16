@@ -2,8 +2,11 @@ import { request } from "../../utils/request";
 
 Page({
   data: { items: [], tab: "mine", loading: true, error: "", status: "all" },
-  onLoad(query) { const tab = (query && query.tab) || ""; if (tab) this.setData({ tab }); },
+  onLoad(query) { const tab = (query && query.tab) || ""; if (tab) this.setData({ tab }); this.updateTitle(); },
   onShow() { this.load(); },
+  updateTitle() { wx.setNavigationBarTitle({ title: this.data.tab === "available" ? "外送接单" : "我的订单" }); },
+  showMine() { this.setData({ tab: "mine" }); this.updateTitle(); this.load(); },
+  showAvailable() { this.setData({ tab: "available" }); this.updateTitle(); this.load(); },
   async load() {
     try {
       const qStatus = this.data.tab === "mine" && this.data.status !== "all" ? `&status=${this.data.status}` : "";

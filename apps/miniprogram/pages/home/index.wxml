@@ -39,10 +39,10 @@
     </navigator>
   </view>
   <view class="tabbar">
-    <navigator url="/pages/home/index" class="tab-item">
+    <button class="tab-item" bindtap="goHome">
       <view class="tab-icon">🏠</view>
       <view class="tab-text">首页</view>
-    </navigator>
+    </button>
     <navigator url="/pages/order/index" class="tab-item">
       <view class="tab-icon">🍽️</view>
       <view class="tab-text">点餐</view>

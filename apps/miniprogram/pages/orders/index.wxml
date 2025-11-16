@@ -1,5 +1,4 @@
 <view class="page-wrap">
-  <view class="header">{{tab==='available'?'外送接单':'我的订单'}}</view>
   <view wx:if="{{tab!=='available'}}" class="card filter-status">
     <button class="btn" bindtap="setStatus" data-v="all">全部</button>
     <button class="btn" bindtap="setStatus" data-v="pending">待接单</button>
