@@ -12,6 +12,10 @@ export function request(path, options = {}) {
         ...(function(){
           const t = wx.getStorageSync("token") || "";
           return t ? { Authorization: `Bearer ${t}` } : {};
+        })(),
+        ...(function(){
+          const at = wx.getStorageSync("admin_token") || "";
+          return at ? { "X-Admin-Token": at } : {};
         })()
       },
       success: (res) => resolve(res.data),

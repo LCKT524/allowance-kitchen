@@ -17,11 +17,14 @@ Page({
     editName: "",
     editCategory: "vegetable",
     editIngredientsText: "",
-    editMethodText: ""
+    editMethodText: "",
+    adminMode: false
   },
   async onLoad(query) {
     const id = query.id || "";
     this.id = id;
+    const at = wx.getStorageSync("admin_token") || "";
+    this.setData({ adminMode: !!at });
     await this.load(id);
     await this.loadCartTotals();
   },
