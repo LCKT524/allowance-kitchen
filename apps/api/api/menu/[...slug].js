@@ -4,10 +4,12 @@ async function list(req, res) {
   const urlObj = new URL(req.url, "http://localhost");
   const category = urlObj.searchParams.get("category") || undefined;
   const name = urlObj.searchParams.get("name") || undefined;
+  const includeArchived = urlObj.searchParams.get("includeArchived") === "1";
   const params = new URLSearchParams();
   params.set("select", "*");
   if (category) params.set("category", `eq.${category}`);
   if (name) params.set("name", `eq.${name}`);
+  if (!includeArchived) params.set("source", "neq.archived");
   const r = await db(`menus?${params.toString()}`);
   if (!r.ok) { const detail = await r.text(); res.status(500).json({ error: "db_error", status: r.status, detail }); return; }
   const data = await r.json();
@@ -62,7 +64,21 @@ async function remove(req, res) {
     if (token !== adminRequired) { res.status(403).json({ error: "forbidden" }); return; }
   }
   const r = await db(`menus?id=eq.${id}`, { method: "DELETE", headers: { "Prefer": "return=minimal" } });
-  if (!r.ok) { const detail = await r.text(); res.status(500).json({ error: "db_error", status: r.status, detail }); return; }
+  if (!r.ok) {
+    const detail = await r.text();
+    if (r.status === 409 || /referenced|foreign key/i.test(detail)) {
+      const ar = await db(`menus?id=eq.${id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json", "Prefer": "return=representation" },
+        body: JSON.stringify({ source: "archived" })
+      });
+      if (!ar.ok) { const ad = await ar.text(); res.status(500).json({ error: "archive_failed", status: ar.status, detail: ad }); return; }
+      res.status(200).json({ ok: true, archived: true });
+      return;
+    }
+    res.status(500).json({ error: "db_error", status: r.status, detail });
+    return;
+  }
   res.status(200).json({ ok: true });
 }
 

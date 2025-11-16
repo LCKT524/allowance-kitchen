@@ -168,6 +168,9 @@ Page({
           this.setData({ showAdminPanel: true });
         } else if (r && r.error === "missing_id") {
           wx.showToast({ title: "参数错误", icon: "none" });
+        } else if (r && r.archived) {
+          wx.showToast({ title: "已归档", icon: "success" });
+          this.load();
         } else {
           wx.showToast({ title: "删除失败", icon: "none" });
         }
@@ -185,16 +188,18 @@ Page({
     });
     if (!conf) return;
     try {
-      let forbidden = false, fail = false;
+      let forbidden = false, fail = false, archived = false;
       for (const id of ids) {
         const r = await request("/api/menu/delete", { method: "POST", data: { id } });
         if (!(r && r.ok)) {
-          if (r && r.error === "forbidden") forbidden = true; else fail = true;
+          if (r && r.error === "forbidden") forbidden = true; else if (r && r.archived) archived = true; else fail = true;
         }
       }
       if (forbidden) {
         wx.showToast({ title: "需要管理员令牌", icon: "none" });
         this.setData({ showAdminPanel: true });
+      } else if (archived && !fail) {
+        wx.showToast({ title: "部分项目已归档", icon: "success" });
       } else if (fail) {
         wx.showToast({ title: "部分删除失败", icon: "none" });
       } else {
