@@ -163,7 +163,14 @@ Page({
         wx.showToast({ title: "已删除", icon: "success" });
         this.load();
       } else {
-        wx.showToast({ title: "删除失败", icon: "none" });
+        if (r && r.error === "forbidden") {
+          wx.showToast({ title: "需要管理员令牌", icon: "none" });
+          this.setData({ showAdminPanel: true });
+        } else if (r && r.error === "missing_id") {
+          wx.showToast({ title: "参数错误", icon: "none" });
+        } else {
+          wx.showToast({ title: "删除失败", icon: "none" });
+        }
       }
     } catch (err) {
       wx.showToast({ title: "网络错误", icon: "none" });
@@ -178,10 +185,21 @@ Page({
     });
     if (!conf) return;
     try {
+      let forbidden = false, fail = false;
       for (const id of ids) {
-        await request("/api/menu/delete", { method: "POST", data: { id } });
+        const r = await request("/api/menu/delete", { method: "POST", data: { id } });
+        if (!(r && r.ok)) {
+          if (r && r.error === "forbidden") forbidden = true; else fail = true;
+        }
       }
-      wx.showToast({ title: "已删除", icon: "success" });
+      if (forbidden) {
+        wx.showToast({ title: "需要管理员令牌", icon: "none" });
+        this.setData({ showAdminPanel: true });
+      } else if (fail) {
+        wx.showToast({ title: "部分删除失败", icon: "none" });
+      } else {
+        wx.showToast({ title: "已删除", icon: "success" });
+      }
       this.clearSelection();
       this.load();
     } catch (err) {
