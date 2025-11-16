@@ -23,7 +23,10 @@ export function request(path, options = {}) {
         })()
       },
       success: (res) => resolve(res.data),
-      fail: reject
+      fail: (err) => {
+        try { wx.showToast({ title: (err && err.errMsg) ? err.errMsg : "网络错误", icon: "none" }); } catch {}
+        reject(err);
+      }
     });
   });
 }

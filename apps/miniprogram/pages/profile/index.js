@@ -20,6 +20,13 @@ Page({
     this.setData({ role: v });
     wx.showToast({ title: "角色已选择", icon: "success" });
   },
+  toggleRole(e) {
+    const on = !!e.detail.value;
+    const v = on ? "courier" : "diner";
+    wx.setStorageSync("role", v);
+    this.setData({ role: v });
+    wx.showToast({ title: `已切换为${on?"接单角色":"点餐角色"}`, icon: "success" });
+  },
   async goLogin() {
     const role = this.data.role || wx.getStorageSync("role") || "";
     if (!role) { wx.showToast({ title: "请先选择角色", icon: "none" }); return; }
@@ -30,8 +37,13 @@ Page({
           const code = res.code;
           let data = await request("/api/auth/wechat-login", { method: "POST", data: { code } });
           if (data && data.error) {
-            data = await request("/api/auth/wechat-login?dev=1");
-            if (!data || !data.token) { wx.showToast({ title: "登录失败", icon: "none" }); return; }
+            const dev = await request("/api/auth/wechat-login?dev=1");
+            data = dev;
+            if (!data || !data.token) {
+              const msg = data && data.detail ? (data.detail.errmsg || data.detail.errcode || data.error) : (data.error || "登录失败");
+              wx.showToast({ title: String(msg), icon: "none" });
+              return;
+            }
           }
           const token = data && data.token ? data.token : "";
           getApp().globalData.token = token;
@@ -45,6 +57,16 @@ Page({
       fail: () => { wx.hideLoading(); wx.showToast({ title: "登录失败", icon: "none" }); }
     });
   },
+  async diagnose() {
+    wx.showLoading({ title: "检测中" });
+    try {
+      const r = await request("/api/menu/list");
+      const count = (r && r.items && Array.isArray(r.items)) ? r.items.length : 0;
+      wx.showToast({ title: `接口正常(${count})`, icon: "success" });
+    } catch (e) {
+      wx.showToast({ title: "接口不可达", icon: "none" });
+    } finally { wx.hideLoading(); }
+  }
   logout() {
     wx.removeStorageSync("token");
     getApp().globalData.token = "";

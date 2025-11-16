@@ -3,16 +3,20 @@
 .avatar{width:72rpx;height:72rpx;border-radius:50%;background:#eef2ff;display:flex;align-items:center;justify-content:center;font-size:40rpx;color:#5b6fd8}
 .user-info{display:flex;flex-direction:column}
 .user-name{font-size:30rpx;color:#333}
-.user-role{font-size:24rpx;color:#888}
-.user-actions{margin-top:12rpx;display:flex;gap:12rpx}
+.user-role{font-size:24rpx;color:#666;padding:6rpx 12rpx;border-radius:999rpx;display:inline-block;margin-top:4rpx;background:#f5f5f5}
+.role-diner{background:#e6f4ff;color:#1e75d6}
+.role-courier{background:#fff7e6;color:#fa8c16}
+.user-actions{margin-top:12rpx;display:flex;gap:12rpx;justify-content:flex-end}
+.btn-sm{padding:14rpx 18rpx;font-size:24rpx;border-radius:12rpx}
 .short-row{display:flex;gap:12rpx}
 .short-btn{flex:1;background:#fff;border:1px solid #eee;border-radius:20rpx;padding:20rpx;text-align:center;color:#333;box-shadow:0 8rpx 18rpx rgba(0,0,0,0.06)}
-.admin-title{font-size:28rpx;color:#333;margin-bottom:8rpx}
+.admin-title{font-size:30rpx;color:#333;margin-bottom:8rpx;font-weight:600}
 .admin .admin-row{display:flex;align-items:center;gap:12rpx}
 .admin-input{flex:1;border:1px solid #ddd;border-radius:12rpx;padding:14rpx}
 .admin-status{margin-top:8rpx;font-size:24rpx;color:#666}
 .admin-actions{margin-top:12rpx;display:flex;gap:12rpx}
-.admin-tip{margin-top:4rpx;font-size:22rpx;color:#8a8a8a}
+.admin-tip{margin-top:6rpx;font-size:22rpx;color:#8a8a8a}
+.switch-row{display:flex;align-items:center;justify-content:space-between}
 .card.admin{background:linear-gradient(180deg,#fff8f1 0%,#ffffff 100%)}
 .overlay{position:fixed;left:0;right:0;top:0;bottom:0;background:rgba(0,0,0,0.35);display:flex;align-items:flex-end;z-index:10}
 .sheet{background:#fff;border-top-left-radius:24rpx;border-top-right-radius:24rpx;padding:24rpx;width:100%}

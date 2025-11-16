@@ -6,36 +6,30 @@
       <view class="avatar">👤</view>
       <view class="user-info">
         <view class="user-name">{{logged?"已登录":"未登录"}}</view>
-        <view class="user-role">{{role?role:"游客"}}</view>
+        <view class="user-role {{role==='courier'?'role-courier':(role==='diner'?'role-diner':'')}}">{{role==='courier'?'接单角色':(role==='diner'?'点餐角色':'游客')}}
+        </view>
       </view>
     </view>
     <view class="user-actions">
-      <button wx:if="{{logged}}" class="btn btn-secondary" bindtap="logout">退出登录</button>
-      <button wx:elif="{{!logged}}" class="btn btn-primary" bindtap="goLogin">去登录</button>
+      <button wx:if="{{logged}}" class="btn btn-secondary btn-sm" bindtap="logout">退出登录</button>
+      <button wx:elif="{{!logged}}" class="btn btn-primary btn-sm" bindtap="goLogin">去登录</button>
     </view>
   </view>
 
   <view class="card role">
     <view class="admin-title">角色选择</view>
-    <view class="role-row">
-      <button class="btn {{role==='diner'?'btn-primary':'btn-secondary'}}" data-v="diner" bindtap="selectRole">点餐角色</button>
-      <button class="btn {{role==='courier'?'btn-primary':'btn-secondary'}}" data-v="courier" bindtap="selectRole">接单角色</button>
+    <view class="role-row switch-row">
+      <view class="switch-label">接单角色</view>
+      <switch checked="{{role==='courier'}}" bindchange="toggleRole" />
     </view>
-    <view class="admin-tip">登录前请选择你的角色；角色将影响可见数据与权限</view>
-  </view>
-
-  <view class="card shortcuts">
-    <view class="short-row">
-      <navigator url="/pages/menu/index" class="short-btn">菜单</navigator>
-      <navigator url="/pages/ai-order/index" class="short-btn">AI点餐</navigator>
-      <navigator url="/pages/orders/index" class="short-btn">订单</navigator>
-    </view>
+    <view class="admin-tip">关闭为“点餐角色”，开启为“接单角色”</view>
   </view>
 
   <view class="card admin">
     <view class="admin-title">管理员入口</view>
     <view class="admin-actions">
-      <button class="btn btn-primary" bindtap="goManage">打开管理入口</button>
+      <button class="btn btn-primary btn-sm" bindtap="goManage">打开管理入口</button>
+      <button class="btn btn-secondary btn-sm" bindtap="diagnose">接口检测</button>
     </view>
     <view class="admin-tip">进入后在菜单页进行管理操作</view>
   </view>
