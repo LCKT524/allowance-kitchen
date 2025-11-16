@@ -19,6 +19,10 @@
 .ing-item{background:#f7f7f7;color:#555;padding:10rpx 14rpx;border-radius:999rpx;font-size:22rpx}
 .steps{display:flex;flex-direction:column;gap:8rpx;margin-top:12rpx}
 .step{font-size:24rpx;color:#555}
+.edit-form{margin-top:16rpx}
+.edit-input{border:1px solid #ddd;border-radius:12rpx;padding:16rpx;font-size:26rpx;margin-bottom:12rpx}
+.edit-row{display:flex;gap:12rpx;margin-bottom:12rpx}
+.edit-textarea{border:1px solid #ddd;border-radius:12rpx;padding:16rpx;font-size:26rpx;height:160rpx;margin-bottom:12rpx}
 .cart-bar{position:fixed;left:0;right:0;bottom:0;padding:16rpx 24rpx;display:flex;justify-content:space-between;align-items:center;background:transparent}
 .cart-pill{background:#333;color:#fff;border-radius:999rpx;padding:16rpx 24rpx;display:flex;align-items:center;gap:16rpx;position:relative}
 .cart-badge{position:absolute;left:-10rpx;top:-10rpx;background:#ff7a45;color:#fff;border-radius:999rpx;min-width:36rpx;height:36rpx;display:flex;align-items:center;justify-content:center;font-size:22rpx}

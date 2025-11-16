@@ -7,6 +7,7 @@
   <view class="price-row">
     <view class="price">¥{{priceDisplay}}/份</view>
     <button class="spec-btn" bindtap="addToCart">选规格</button>
+    <button class="spec-btn" style="background:#7dcfb6" bindtap="toggleEdit">{{editing?"取消":"编辑"}}</button>
   </view>
 
   <view class="section-title">菜品介绍</view>
@@ -35,6 +36,17 @@
   <view class="section-title">做法步骤</view>
   <view class="steps">
     <view class="step" wx:for="{{methodSteps}}" wx:key="index">第{{index+1}}步：{{item}}</view>
+  </view>
+
+  <view wx:if="{{editing}}" class="card edit-form">
+    <input class="edit-input" placeholder="菜名" value="{{editName}}" bindinput="onEditName" />
+    <view class="edit-row">
+      <button class="btn {{editCategory==='meat'?'btn-primary':'btn-secondary'}}" data-v="meat" bindtap="onEditCategory">荤</button>
+      <button class="btn {{editCategory==='vegetable'?'btn-primary':'btn-secondary'}}" data-v="vegetable" bindtap="onEditCategory">素</button>
+    </view>
+    <textarea class="edit-textarea" placeholder="食材（用顿号分隔）" value="{{editIngredientsText}}" bindinput="onEditIngredients"></textarea>
+    <textarea class="edit-textarea" placeholder="做法" value="{{editMethodText}}" bindinput="onEditMethod"></textarea>
+    <button class="btn btn-primary" bindtap="saveEdit">保存</button>
   </view>
 
   <view class="cart-bar">

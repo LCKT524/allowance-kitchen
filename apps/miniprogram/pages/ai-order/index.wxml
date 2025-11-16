@@ -1,21 +1,21 @@
-<view class="page-wrap">
+<view class="chat-page">
   <view class="header">AI 点餐</view>
   <view class="sub">通过聊天让 AI 推荐菜品</view>
 
-  <view class="card chat-box">
-    <scroll-view class="chat-scroll" scroll-y="true" scroll-into-view="{{lastId}}" style="height: 560rpx;">
+  <view class="chat-box">
+    <scroll-view class="chat-scroll" scroll-y="true" scroll-into-view="{{lastId}}">
       <view id="top"></view>
       <view wx:for="{{messages}}" wx:key="id" id="{{item.id}}" class="msg {{item.role}}">
-        <view wx:if="{{item.type==='text'}}">{{item.text}}</view>
-        <view wx:elif="{{item.type==='rec'}}" class="rec">
-          <view>菜名：{{item.rec.name}}</view>
-          <view>食材：{{item.rec.ingredientsText}}</view>
-          <view>做法：</view>
-          <block wx:if="{{item.rec.steps && item.rec.steps.length}}">
-            <view wx:for="{{item.rec.steps}}" wx:key="index">第{{index+1}}步：{{item}}；</view>
+        <view wx:if="{{item.type==='text'}}" class="bubble user-text">{{item.text}}</view>
+        <view wx:elif="{{item.type==='rec'}}" class="bubble rec">
+          <view class="rec-line">菜名：{{item.rec.name}}</view>
+          <view class="rec-line">食材：{{item.rec.ingredientsText}}</view>
+          <view class="rec-line">做法：</view>
+          <block wx:if="{{item.rec.stepsClean && item.rec.stepsClean.length}}">
+            <view wx:for="{{item.rec.stepsClean}}" wx:key="index" class="rec-step">第{{index+1}}步：{{item}}</view>
           </block>
           <block wx:else>
-            <view>{{item.rec.method}}</view>
+            <view class="rec-step">{{item.rec.method}}</view>
           </block>
           <view class="actions">
             <button class="btn btn-secondary" disabled="{{loading}}" bindtap="reject">不满意，继续推荐</button>
@@ -25,8 +25,13 @@
       </view>
     </scroll-view>
     <form bindsubmit="send" class="send-row">
-      <input name="content" class="send-input" placeholder="输入需求，如：清淡素菜"/>
-      <button formType="submit" class="btn btn-primary" disabled="{{loading}}">发送</button>
+      <scroll-view class="quick-tags" scroll-x="true">
+        <view class="tag" wx:for="{{quickTags}}" wx:key="*this" data-v="{{item}}" bindtap="onTagTap">{{item}}</view>
+      </scroll-view>
+      <view class="send-inner">
+        <input name="content" class="send-input" placeholder="输入需求，如：清淡素菜" value="{{inputText}}" bindinput="onInput"/>
+        <button formType="submit" class="send-btn" disabled="{{loading}}">发送</button>
+      </view>
     </form>
   </view>
 </view>

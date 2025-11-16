@@ -3,17 +3,28 @@ import { request } from "../../utils/request";
 function genId() { return Math.random().toString(36).slice(2); }
 
 Page({
-  data: { messages: [], loading: false, lastId: "top" },
+  data: { messages: [], loading: false, lastId: "top", inputText: "", quickTags: ["清淡","素菜","低油","少辣","多蛋白","减脂","不吃牛羊"] },
   pushMessage(msg) {
     const list = [...this.data.messages, msg];
     const lastId = msg.id;
     this.setData({ messages: list, lastId });
   },
+  onInput(e) {
+    this.setData({ inputText: e.detail.value || "" });
+  },
+  onTagTap(e) {
+    const v = e.currentTarget.dataset.v || "";
+    if (!v) return;
+    const base = this.data.inputText || "";
+    const next = base ? (base + "，" + v) : v;
+    this.setData({ inputText: next });
+  },
   async send(e) {
-    const content = e.detail.value.content;
+    const content = (e.detail && e.detail.value && e.detail.value.content) ? e.detail.value.content : this.data.inputText;
     if (!content) return;
     const userMsg = { id: genId(), role: "user", type: "text", text: content };
     this.pushMessage(userMsg);
+    this.setData({ inputText: "" });
     await this.requestRecommendation(content);
   },
   async requestRecommendation(prompt) {
@@ -24,6 +35,7 @@ Page({
       const rec = d && d.recommendation ? d.recommendation : null;
       if (rec) {
         rec.ingredientsText = Array.isArray(rec.ingredients) ? rec.ingredients.join("、") : (typeof rec.ingredients === "string" ? rec.ingredients : "");
+        rec.stepsClean = Array.isArray(rec.steps) ? rec.steps.map(s => String(s).replace(/[；;。]+$/,'')) : [];
         const msg = { id: genId(), role: "assistant", type: "rec", rec };
         this.pushMessage(msg);
       }

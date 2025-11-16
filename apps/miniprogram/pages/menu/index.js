@@ -31,5 +31,24 @@ Page({
   onSearchInput(e) {
     this.setData({ searchKey: e.detail.value || "", loading: true });
     this.load();
+  },
+  async deleteItem(e) {
+    const id = e.currentTarget.dataset.id;
+    if (!id) return;
+    const conf = await new Promise(resolve => {
+      wx.showModal({ title: "删除菜单", content: "确定删除该菜品吗？", success: r => resolve(!!r.confirm), fail: () => resolve(false) });
+    });
+    if (!conf) return;
+    try {
+      const r = await request("/api/menu/delete", { method: "POST", data: { id } });
+      if (r && r.ok) {
+        wx.showToast({ title: "已删除", icon: "success" });
+        this.load();
+      } else {
+        wx.showToast({ title: "删除失败", icon: "none" });
+      }
+    } catch (err) {
+      wx.showToast({ title: "网络错误", icon: "none" });
+    }
   }
 });
