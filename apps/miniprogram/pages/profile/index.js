@@ -13,7 +13,29 @@ Page({
     const at = wx.getStorageSync("admin_token") || "";
     this.setData({ logged: !!token, role, adminToken: at });
   },
-  goLogin() { wx.navigateTo({ url: "/pages/home/index" }); },
+  async goLogin() {
+    wx.showLoading({ title: "正在登录" });
+    wx.login({
+      success: async (res) => {
+        try {
+          const code = res.code;
+          let data = await request("/api/auth/wechat-login", { method: "POST", data: { code } });
+          if (data && data.error) {
+            data = await request("/api/auth/wechat-login?dev=1");
+            if (!data || !data.token) { wx.showToast({ title: "登录失败", icon: "none" }); return; }
+          }
+          const token = data && data.token ? data.token : "";
+          getApp().globalData.token = token;
+          wx.setStorageSync("token", token);
+          this.setData({ logged: !!token });
+          wx.showToast({ title: "登录成功", icon: "success" });
+          wx.reLaunch({ url: "/pages/home/index" });
+        } catch (e) { wx.showToast({ title: "网络错误", icon: "none" }); }
+        finally { wx.hideLoading(); }
+      },
+      fail: () => { wx.hideLoading(); wx.showToast({ title: "登录失败", icon: "none" }); }
+    });
+  },
   logout() {
     wx.removeStorageSync("token");
     getApp().globalData.token = "";

@@ -8,9 +8,12 @@
   <view class="login-card card">
     <view class="login-left">
       <view class="avatar">👤</view>
-      <view class="login-text">授权登录</view>
+      <view class="login-text">账号状态</view>
     </view>
-    <button class="qr-btn" bindtap="onLogin">⌁</button>
+    <view class="login-right">
+      <view class="status-pill {{logged?'ok':'warn'}}">{{logged?'已登录':'未登录'}}</view>
+      <navigator wx:if="{{!logged}}" url="/pages/profile/index" class="status-action">去登录</navigator>
+    </view>
   </view>
   <view class="section-title">常用功能</view>
   <view class="grid">
@@ -39,10 +42,10 @@
     </navigator>
   </view>
   <view class="tabbar">
-    <button class="tab-item" bindtap="goHome">
+    <view class="tab-item" bindtap="goHome">
       <view class="tab-icon">🏠</view>
       <view class="tab-text">首页</view>
-    </button>
+    </view>
     <navigator url="/pages/order/index" class="tab-item">
       <view class="tab-icon">🍽️</view>
       <view class="tab-text">点餐</view>

@@ -35,7 +35,7 @@ Page({
           wx.setStorageSync("token", token);
           this.setData({ logged: !!token });
           wx.showToast({ title: "登录成功", icon: "success" });
-          wx.reLaunch({ url: "/pages/menu/index", fail: () => wx.redirectTo({ url: "/pages/menu/index" }) });
+          wx.reLaunch({ url: "/pages/home/index", fail: () => wx.redirectTo({ url: "/pages/home/index" }) });
         } catch (e) {
           wx.showToast({ title: "网络错误，请稍后重试", icon: "none" });
         } finally {

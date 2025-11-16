@@ -8,8 +8,13 @@
 .banner-sub{font-size:24rpx;color:#7a7a7a;margin-top:6rpx}
 .login-card{display:flex;justify-content:space-between;align-items:center;margin-top:24rpx}
 .login-left{display:flex;align-items:center;gap:16rpx}
-.avatar{width:64rpx;height:64rpx;border-radius:50%;background:#f0f0f0;display:flex;align-items:center;justify-content:center;font-size:36rpx}
+.avatar{width:64rpx;height:64rpx;border-radius:50%;background:#eef2ff;display:flex;align-items:center;justify-content:center;font-size:36rpx;color:#5b6fd8}
 .login-text{font-size:28rpx;color:#333}
+.login-right{display:flex;align-items:center;gap:12rpx}
+.status-pill{padding:10rpx 16rpx;border-radius:999rpx;font-size:24rpx}
+.status-pill.ok{background:#dff5ea;color:#2f8f61}
+.status-pill.warn{background:#ffecec;color:#d43f65}
+.status-action{background:#ff7a45;color:#fff;border:none;border-radius:999rpx;padding:10rpx 16rpx;font-size:24rpx}
 .qr-btn{width:96rpx;height:64rpx;border-radius:16rpx;background:#ffedd6;color:#ff7a45;border:none}
 .section-title{margin-top:24rpx;font-size:28rpx;color:#555}
 .grid{display:flex;gap:24rpx;margin-top:12rpx}
