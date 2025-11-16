@@ -1,11 +1,9 @@
 <view class="page">
-  <view class="topbar">
-    <button class="icon-btn">···</button>
-    <button class="icon-btn" bindtap="openChat">💬</button>
-    <button class="icon-btn">○</button>
-  </view>
+  
   <view class="banner">
     <view class="chef"></view>
+    <view class="banner-title">零花钱厨房</view>
+    <view class="banner-sub">简洁点餐 · 轻松管理</view>
   </view>
   <view class="login-card card">
     <view class="login-left">
@@ -14,16 +12,18 @@
     </view>
     <button class="qr-btn" bindtap="onLogin">⌁</button>
   </view>
+  <view class="section-title">常用功能</view>
   <view class="grid">
     <navigator url="/pages/order/index" class="grid-card">
       <view class="grid-icon">🍽️</view>
       <view class="grid-text">堂食点餐</view>
     </navigator>
-    <navigator url="/pages/orders/index" class="grid-card">
+    <navigator url="/pages/orders/index?tab=available" class="grid-card">
       <view class="grid-icon">🏃</view>
       <view class="grid-text">外送接单</view>
     </navigator>
   </view>
+  <view class="section-title">更多</view>
   <view class="grid small">
     <navigator url="/pages/orders/index" class="grid-mini" open-type="navigate">
       <view class="mini-icon">🔔</view>

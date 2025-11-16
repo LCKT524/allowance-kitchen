@@ -1,11 +1,9 @@
 <view class="page-wrap">
-  <view class="tabs">
-    <button class="tab" bindtap="showMine">我的订单</button>
-    <button class="tab" bindtap="showAvailable">可接订单</button>
-  </view>
-  <view class="card filter-status">
+  <view class="header">{{tab==='available'?'外送接单':'我的订单'}}</view>
+  <view wx:if="{{tab!=='available'}}" class="card filter-status">
     <button class="btn" bindtap="setStatus" data-v="all">全部</button>
     <button class="btn" bindtap="setStatus" data-v="pending">待接单</button>
+    <button class="btn" bindtap="setStatus" data-v="accepted">已接单</button>
     <button class="btn" bindtap="setStatus" data-v="in_progress">进行中</button>
     <button class="btn" bindtap="setStatus" data-v="completed">已完成</button>
   </view>
@@ -14,12 +12,16 @@
   <view wx:else class="list">
     <view wx:for="{{items}}" wx:key="id" class="card">
       <view class="list-item">
-        <view>订单：{{item.id}}</view>
-        <view class="badge">{{item.status}}</view>
+        <view class="title">{{item._names}}</view>
+        <view class="badge {{item._statusClass}}">{{item._statusText}}</view>
       </view>
-      <view class="sub">总价：￥{{item.total_price}}</view>
+      <view class="sub">
+        <view>总价：￥{{item.total_price}}</view>
+        <view>下单：{{item._created_at}}</view>
+      </view>
       <view class="actions">
         <navigator url="/pages/order-detail/index?id={{item.id}}" class="btn btn-secondary">查看</navigator>
+        <navigator url="/pages/chat/index?orderId={{item.id}}" class="btn btn-secondary">聊天</navigator>
         <button wx:if="{{tab==='available'}}" bindtap="accept" data-id="{{item.id}}" class="btn btn-primary">接单</button>
         <block wx:if="{{tab==='mine'}}">
           <button wx:if="{{item.status==='accepted'}}" bindtap="start" data-id="{{item.id}}" class="btn btn-primary">开始制作</button>

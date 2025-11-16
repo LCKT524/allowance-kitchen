@@ -1,5 +1,4 @@
 <view class="page-wrap">
-  <view class="header" bindlongpress="toggleAdminPanel">菜单</view>
   <view class="sub">选择喜欢的菜品</view>
 
   <view class="card filters">
@@ -51,7 +50,7 @@
         <button class="btn btn-primary" bindtap="saveAdminToken">保存</button>
         <button class="btn btn-secondary" bindtap="clearAdminToken">清除令牌</button>
       </view>
-      <view class="sheet-sub">长按“菜单”标题打开本面板</view>
+      <view class="sheet-sub">可在“我的”页打开管理入口</view>
     </view>
   </view>
 

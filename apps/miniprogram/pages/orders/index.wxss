@@ -2,3 +2,10 @@
 .tabs{display:flex;gap:16rpx;margin-bottom:16rpx}
 .actions{margin-top:12rpx;display:flex;gap:16rpx}
 .filter-status{display:flex;gap:12rpx}
+.list-item{display:flex;justify-content:space-between;align-items:center}
+.title{font-size:28rpx;color:#333;font-weight:600}
+.sub{display:flex;justify-content:space-between;align-items:center;color:#666;font-size:24rpx;margin-top:6rpx}
+.status-pending{background:#fff7e6;color:#fa8c16}
+.status-accepted{background:#e6f4ff;color:#1e75d6}
+.status-inprogress{background:#fff1f0;color:#cf1322}
+.status-completed{background:#dff5ea;color:#2f8f61}

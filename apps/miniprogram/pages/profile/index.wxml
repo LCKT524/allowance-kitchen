@@ -1,5 +1,4 @@
 <view class="page-wrap">
-  <view class="header">我的</view>
   <view class="sub">账号与管理</view>
 
   <view class="card user">

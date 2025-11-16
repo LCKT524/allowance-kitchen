@@ -130,13 +130,19 @@ async function messagesSend(req, res) {
 async function messagesList(req, res, query) {
   const orderId = typeof query.get("orderId") === "string" ? query.get("orderId") : query.get("orderId");
   if (!orderId) { res.status(400).json({ error: "missing_orderId" }); return; }
+  const tk = parseToken(req);
+  const openid = tk.openid || "";
+  let uid = "";
+  if (openid) uid = await ensureUser(openid);
   const params = new URLSearchParams();
   params.set("order", "created_at.asc");
   params.set("order_id", `eq.${orderId}`);
+  params.set("select", "*");
   const r = await db(`messages?${params.toString()}`);
   if (!r.ok) { res.status(500).json({ error: "db_error" }); return; }
   const d = await r.json();
-  res.status(200).json({ items: d });
+  const items = Array.isArray(d) ? d.map(m => ({ ...m, mine: uid && m.sender_id === uid })) : [];
+  res.status(200).json({ items });
 }
 
 async function list(req, res, query) {

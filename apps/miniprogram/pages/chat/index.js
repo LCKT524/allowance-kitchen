@@ -1,7 +1,7 @@
 import { request } from "../../utils/request";
 
 Page({
-  data: { orderId: "", order: {}, messages: [], lastId: "top", loading: true },
+  data: { orderId: "", order: {}, messages: [], lastId: "top", loading: true, text: "" },
   onLoad(query) {
     const id = query.orderId || query.id || "";
     this.setData({ orderId: id });
@@ -29,10 +29,12 @@ Page({
     } catch { this.setData({ messages: [], lastId: "top" }); }
   },
   startPolling() { if (!this.data.orderId) return; this.loadMessages(); this.timer = setInterval(() => this.loadMessages(), 3000); },
-  async send(e) {
-    const content = e.detail.value.content;
+  onInput(e) { this.setData({ text: e.detail.value || "" }); },
+  async send() {
+    const content = (this.data.text || "").trim();
     if (!content) return;
     await request("/api/order/messages/send", { method: "POST", data: { orderId: this.data.orderId, content } });
+    this.setData({ text: "" });
     this.loadMessages();
   },
   openOrders() { wx.navigateTo({ url: "/pages/orders/index" }); }

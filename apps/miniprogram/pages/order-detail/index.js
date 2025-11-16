@@ -11,6 +11,5 @@ Page({
       wx.showToast({ title: "加载失败", icon: "none" });
       this.setData({ loading: false });
     }
-  },
-  openChat() { wx.navigateTo({ url: `/pages/chat/index?orderId=${this.id}` }); }
+  }
 })

@@ -6,7 +6,4 @@
       <view wx:for="{{items}}" wx:key="id" class="line">{{item.quantity}} x {{item.menu_name}}（{{item.menu_category}}） 单价￥{{item.unit_price}}</view>
     </view>
   </view>
-  <view class="section">
-    <button bindtap="openChat">打开聊天</button>
-  </view>
 </view>

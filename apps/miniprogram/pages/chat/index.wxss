@@ -2,9 +2,14 @@
 .chat-wrap{padding:24rpx}
 .chat-header{font-size:32rpx;color:#333;margin-bottom:4rpx}
 .chat-sub{font-size:24rpx;color:#888;margin-bottom:12rpx}
-.msgbox{height:480rpx;background:#fff;border-radius:12rpx;padding:12rpx;box-shadow:0 8rpx 18rpx rgba(0,0,0,0.06)}
-.message{padding:8rpx 0;border-bottom:1px solid #f3f3f3;font-size:26rpx;color:#333}
-.message:last-child{border-bottom:none}
-.chat-form{display:flex;gap:12rpx;margin-top:12rpx}
+.msgbox{height:520rpx;background:#fff;border-radius:12rpx;padding:12rpx;box-shadow:0 8rpx 18rpx rgba(0,0,0,0.06)}
+.row{display:flex;flex-direction:column;margin:8rpx 0}
+.row.other{align-items:flex-start}
+.row.mine{align-items:flex-end}
+.bubble{max-width:70%;padding:14rpx 18rpx;border-radius:18rpx;font-size:26rpx;line-height:1.4}
+.row.other .bubble{background:#f5f5f5;color:#333;border-top-left-radius:6rpx}
+.row.mine .bubble{background:#ffeed8;color:#333;border-top-right-radius:6rpx}
+.time{margin-top:4rpx;font-size:20rpx;color:#999}
+.chat-form{position:fixed;left:0;right:0;bottom:0;background:#fff;border-top:1px solid #eee;padding:12rpx 24rpx;display:flex;gap:12rpx}
 .chat-input{flex:1;background:#fff;border:1px solid #eee;border-radius:12rpx;padding:12rpx;font-size:26rpx}
 .chat-send{background:#ff7a45;color:#fff;border:none;border-radius:12rpx;padding:12rpx 20rpx;font-size:26rpx}
