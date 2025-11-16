@@ -1,16 +1,58 @@
 <view class="page">
-  <view class="hero">
-    <view class="logo">零花钱厨房</view>
-    <view class="slogan">今天想吃什么？Ta来做</view>
+  <view class="topbar">
+    <button class="icon-btn">···</button>
+    <button class="icon-btn">○</button>
   </view>
-  <view class="card">
-    <view class="roles">
-      <button class="role husband" bindtap="selectRole" data-role="husband">我是老公</button>
-      <button class="role wife" bindtap="selectRole" data-role="wife">我是老婆</button>
+  <view class="banner">
+    <view class="chef"></view>
+  </view>
+  <view class="login-card card">
+    <view class="login-left">
+      <view class="avatar">👤</view>
+      <view class="login-text">授权登录</view>
     </view>
-    <button class="primary" bindtap="onLogin">微信一键登录</button>
-    <view class="tip">登录后可点餐、接单、聊天</view>
+    <button class="qr-btn" bindtap="onLogin">⌁</button>
   </view>
-  <view class="decor decor1"></view>
-  <view class="decor decor2"></view>
+  <view class="grid">
+    <navigator url="/pages/order/index" class="grid-card">
+      <view class="grid-icon">🍽️</view>
+      <view class="grid-text">堂食点餐</view>
+    </navigator>
+    <navigator url="/pages/orders/index" class="grid-card">
+      <view class="grid-icon">🏃</view>
+      <view class="grid-text">外送接单</view>
+    </navigator>
+  </view>
+  <view class="grid small">
+    <navigator url="/pages/orders/index" class="grid-mini" open-type="navigate">
+      <view class="mini-icon">🔔</view>
+      <view class="mini-text">订单列表</view>
+    </navigator>
+    <navigator url="/pages/ai-order/index" class="grid-mini" open-type="navigate">
+      <view class="mini-icon">🧠</view>
+      <view class="mini-text">AI点餐</view>
+    </navigator>
+    <navigator url="/pages/menu/index" class="grid-mini" open-type="navigate">
+      <view class="mini-icon">📒</view>
+      <view class="mini-text">菜单</view>
+    </navigator>
+  </view>
+  <view class="tabbar">
+    <navigator url="/pages/home/index" class="tab-item">
+      <view class="tab-icon">🏠</view>
+      <view class="tab-text">首页</view>
+    </navigator>
+    <navigator url="/pages/order/index" class="tab-item">
+      <view class="tab-icon">🍽️</view>
+      <view class="tab-text">点餐</view>
+    </navigator>
+    <navigator url="/pages/orders/index" class="tab-item">
+      <view class="tab-icon">📋</view>
+      <view class="tab-text">订单</view>
+    </navigator>
+    <navigator url="/pages/menu/index" class="tab-item">
+      <view class="tab-icon">👤</view>
+      <view class="tab-text">我的</view>
+    </navigator>
+  </view>
 </view>

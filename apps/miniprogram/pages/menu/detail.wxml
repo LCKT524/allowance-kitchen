@@ -1,7 +1,47 @@
-<view class="container">
-  <view class="name">{{item.name}}</view>
-  <view>分类：{{item.category}}</view>
-  <view>用材：{{item.ingredients}}</view>
-  <view>做法：{{item.method}}</view>
-  <button class="add" bindtap="addToCart">加入购物车并下单</button>
+<view class="detail-page">
+  <view class="img card">
+    <image class="cover" src="{{imageSrc}}" mode="aspectFill"></image>
+  </view>
+  <view class="title">{{item.name}}<text class="subtitle">（赠送饮品一份）</text></view>
+  <view class="discount">5.4折</view>
+  <view class="price-row">
+    <view class="price">¥{{priceDisplay}}/份</view>
+    <button class="spec-btn" bindtap="addToCart">选规格</button>
+  </view>
+
+  <view class="section-title">菜品介绍</view>
+  <view class="features">
+    <view class="feat">
+      <view class="feat-icon">🔥</view>
+      <view class="feat-main">{{calories}}卡</view>
+      <view class="feat-sub">热量</view>
+    </view>
+    <view class="feat">
+      <view class="feat-icon">🍽️</view>
+      <view class="feat-main">{{cookWay}}</view>
+      <view class="feat-sub">烹饪方式</view>
+    </view>
+    <view class="feat">
+      <view class="feat-icon">🥬</view>
+      <view class="feat-main">{{taste}}</view>
+      <view class="feat-sub">{{item.category==='meat'?'荤':'素'}}</view>
+    </view>
+  </view>
+  <view class="section-title">食材</view>
+  <view class="ingredients">
+    <view class="ing-item" wx:for="{{ingredientsList}}" wx:key="index">{{item}}</view>
+  </view>
+
+  <view class="section-title">做法步骤</view>
+  <view class="steps">
+    <view class="step" wx:for="{{methodSteps}}" wx:key="index">第{{index+1}}步：{{item}}</view>
+  </view>
+
+  <view class="cart-bar">
+    <view class="cart-pill">
+      <view class="cart-badge">{{cartCount}}</view>
+      <text class="cart-total">¥ {{cartTotalDisplay}}</text>
+    </view>
+    <button class="checkout-btn" bindtap="goToOrder">去下单</button>
+  </view>
 </view>

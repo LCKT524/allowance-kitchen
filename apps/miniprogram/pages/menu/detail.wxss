@@ -1,3 +1,26 @@
-.container{padding:24rpx}
-.name{font-size:34rpx;margin-bottom:12rpx}
-.add{margin-top:24rpx;background:#ff7a45;color:#fff;border:none;border-radius:16rpx;padding:20rpx}
+@import "../../styles/theme.wxss";
+.detail-page{padding:24rpx 24rpx 140rpx;background:#fff}
+.img{padding:0}
+.cover{width:100%;height:380rpx;border-radius:20rpx}
+.title{font-size:32rpx;color:#333;margin-top:16rpx}
+.subtitle{font-size:24rpx;color:#999;margin-left:8rpx}
+.discount{display:inline-block;background:#fff2e6;color:#ff7a45;border-radius:10rpx;padding:6rpx 12rpx;font-size:22rpx;margin:12rpx 0}
+.price-row{display:flex;justify-content:space-between;align-items:center}
+.price{font-size:28rpx;color:#111}
+.spec-btn{background:#ff7a45;color:#fff;border:none;border-radius:12rpx;padding:16rpx 24rpx;font-size:26rpx}
+.section-title{font-size:28rpx;color:#333;margin-top:18rpx}
+.features{display:flex;justify-content:space-between;margin-top:12rpx}
+.feat{display:flex;flex-direction:column;align-items:center;gap:6rpx}
+.feat-icon{font-size:32rpx}
+.feat-main{font-size:26rpx;color:#333}
+.feat-sub{font-size:22rpx;color:#999}
+.desc{margin-top:16rpx;font-size:24rpx;color:#555;line-height:1.6}
+.ingredients{display:flex;flex-wrap:wrap;gap:12rpx;margin-top:12rpx}
+.ing-item{background:#f7f7f7;color:#555;padding:10rpx 14rpx;border-radius:999rpx;font-size:22rpx}
+.steps{display:flex;flex-direction:column;gap:8rpx;margin-top:12rpx}
+.step{font-size:24rpx;color:#555}
+.cart-bar{position:fixed;left:0;right:0;bottom:0;padding:16rpx 24rpx;display:flex;justify-content:space-between;align-items:center;background:transparent}
+.cart-pill{background:#333;color:#fff;border-radius:999rpx;padding:16rpx 24rpx;display:flex;align-items:center;gap:16rpx;position:relative}
+.cart-badge{position:absolute;left:-10rpx;top:-10rpx;background:#ff7a45;color:#fff;border-radius:999rpx;min-width:36rpx;height:36rpx;display:flex;align-items:center;justify-content:center;font-size:22rpx}
+.cart-total{font-size:28rpx}
+.checkout-btn{background:#ff7a45;color:#fff;border:none;border-radius:999rpx;padding:18rpx 32rpx;font-size:28rpx}

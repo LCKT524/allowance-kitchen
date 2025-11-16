@@ -1,1 +1,4 @@
 @import "../../styles/theme.wxss";
+.filters{display:flex;flex-direction:column;gap:16rpx}
+.filter-tabs{display:flex;gap:12rpx}
+.search{border:1px solid #ddd;border-radius:12rpx;padding:12rpx}

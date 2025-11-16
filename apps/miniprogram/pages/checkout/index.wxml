@@ -1,0 +1,53 @@
+<view class="checkout-page">
+  <view class="info card">
+    <view class="info-line">
+      <text>桌号</text>
+      <text class="strong">{{tableNo}}</text>
+      <text class="sep">用餐人数</text>
+      <text class="strong">{{peopleCount}}人</text>
+    </view>
+    <view class="info-sub">联系电话 {{phone}}</view>
+  </view>
+
+  <view class="list card">
+    <view class="list-title">用餐列表</view>
+    <view wx:for="{{items}}" wx:key="id" class="dish">
+      <view class="dish-left">
+        <view class="dish-thumb"></view>
+        <view class="dish-meta">
+          <view class="dish-name">{{item.name}}</view>
+          <view class="dish-sub">1人份 少辣</view>
+        </view>
+      </view>
+      <view class="dish-right">
+        <view class="dish-price">¥{{item.price}}</view>
+        <view class="dish-qty">x{{item.qty}}</view>
+      </view>
+    </view>
+    <button class="add-btn" bindtap="continueAdd">＋ 继续加菜</button>
+  </view>
+
+  <view class="summary card">
+    <view class="row">
+      <view>优惠券</view>
+      <view class="link">{{couponText}}</view>
+    </view>
+    <view class="row">
+      <view>折扣金额</view>
+      <view>−¥{{discountDisplay}}</view>
+    </view>
+    <view class="row strong">
+      <view>小计</view>
+      <view>¥{{subTotalDisplay}}</view>
+    </view>
+  </view>
+
+  <view class="footer">
+    <view class="total-pill">合计 ¥{{totalDisplay}}</view>
+    <button class="pay-btn" bindtap="goPay">提交支付</button>
+  </view>
+
+  <view class="remark-wrap">
+    <input class="remark" placeholder="请输入订单备注……" bindinput="onRemark" value="{{remark}}" />
+  </view>
+</view>

@@ -1,6 +1,14 @@
 <view class="page-wrap">
   <view class="header">菜单</view>
   <view class="sub">选择喜欢的菜品</view>
+  <view class="card filters">
+    <view class="filter-tabs">
+      <button class="btn" bindtap="setFilter" data-v="all">全部</button>
+      <button class="btn" bindtap="setFilter" data-v="meat">荤</button>
+      <button class="btn" bindtap="setFilter" data-v="vegetable">素</button>
+    </view>
+    <input class="search" placeholder="搜索菜名" bindinput="onSearchInput" value="{{searchKey}}" />
+  </view>
   <view wx:if="{{loading}}" class="card">加载中...</view>
   <view wx:elif="{{error}}" class="error">{{error}}</view>
   <view wx:else class="list">

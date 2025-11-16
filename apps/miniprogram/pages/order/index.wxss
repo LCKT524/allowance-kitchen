@@ -1,2 +1,34 @@
 @import "../../styles/theme.wxss";
-.qty{border:1px solid #ddd;padding:8rpx;width:120rpx;border-radius:12rpx}
+.order-page{min-height:100vh;background:#f6f6f6;padding:24rpx 24rpx 140rpx;box-sizing:border-box}
+.top{display:flex;justify-content:space-between;align-items:center}
+.store-line{display:flex;align-items:center;gap:10rpx}
+.store-name{font-size:32rpx;color:#333}
+.chevron{font-size:24rpx;color:#999}
+.distance{font-size:22rpx;color:#888;margin-top:8rpx}
+.type-tabs{display:flex;background:#f0f0f0;border-radius:16rpx;overflow:hidden}
+.type-tab{padding:14rpx 22rpx;font-size:24rpx;color:#666}
+.type-tab.active{background:#fff;color:#333}
+.content{display:flex;gap:16rpx;margin-top:16rpx}
+.sidebar{width:180rpx;background:#fff;border-radius:20rpx;box-shadow:0 12rpx 32rpx rgba(0,0,0,0.06);padding:12rpx}
+.side-item{display:flex;align-items:center;gap:10rpx;padding:14rpx;border-radius:12rpx;color:#666}
+.side-item.active{background:#f5f5f5;color:#333}
+.side-icon{font-size:26rpx}
+.side-text{font-size:24rpx}
+.products{flex:1}
+.product-card{display:flex;gap:16rpx}
+.prod-image{width:140rpx;height:140rpx;border-radius:16rpx;background:linear-gradient(135deg,#ffe7c6,#ffd1dc)}
+.prod-info{flex:1}
+.prod-title{font-size:28rpx;color:#333}
+.tags{margin:6rpx 0}
+.discount{display:inline-block;background:#fff2e6;color:#ff7a45;border-radius:10rpx;padding:6rpx 12rpx;font-size:22rpx}
+.prod-bottom{display:flex;justify-content:space-between;align-items:center;margin-top:8rpx}
+.price{font-size:28rpx;color:#111}
+.qty-controls{display:flex;align-items:center;gap:10rpx}
+.qty-btn{width:44rpx;height:44rpx;border-radius:22rpx;background:#f0f0f0;color:#333;display:flex;align-items:center;justify-content:center;font-size:28rpx}
+.qty-btn.primary{background:#ff7a45;color:#fff}
+.qty-num{min-width:32rpx;text-align:center;font-size:26rpx;color:#333}
+.cart-bar{position:fixed;left:0;right:0;bottom:0;padding:16rpx 24rpx;display:flex;justify-content:space-between;align-items:center}
+.cart-pill{background:#333;color:#fff;border-radius:999rpx;padding:16rpx 24rpx;display:flex;align-items:center;gap:16rpx;position:relative}
+.cart-badge{position:absolute;left:-10rpx;top:-10rpx;background:#ff7a45;color:#fff;border-radius:999rpx;min-width:36rpx;height:36rpx;display:flex;align-items:center;justify-content:center;font-size:22rpx}
+.cart-total{font-size:28rpx}
+.checkout-btn{background:#ff7a45;color:#fff;border:none;border-radius:999rpx;padding:18rpx 32rpx;font-size:28rpx}

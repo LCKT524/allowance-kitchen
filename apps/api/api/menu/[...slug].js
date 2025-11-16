@@ -3,9 +3,11 @@ import { db } from "../../lib/supabase.js";
 async function list(req, res) {
   const urlObj = new URL(req.url, "http://localhost");
   const category = urlObj.searchParams.get("category") || undefined;
+  const name = urlObj.searchParams.get("name") || undefined;
   const params = new URLSearchParams();
   params.set("select", "*");
   if (category) params.set("category", `eq.${category}`);
+  if (name) params.set("name", `eq.${name}`);
   const r = await db(`menus?${params.toString()}`);
   if (!r.ok) { const detail = await r.text(); res.status(500).json({ error: "db_error", status: r.status, detail }); return; }
   const data = await r.json();

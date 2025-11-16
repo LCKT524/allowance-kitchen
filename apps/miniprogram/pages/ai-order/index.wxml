@@ -1,12 +1,32 @@
 <view class="page-wrap">
   <view class="header">AI 点餐</view>
-  <view class="sub">告诉 AI 你的喜好</view>
-  <form bindsubmit="submit" class="card">
-    <textarea name="prompt" class="input" placeholder="如：今晚想吃清淡的素菜"></textarea>
-    <button formType="submit" class="btn btn-primary" style="margin-top:12rpx;">生成菜谱并入库</button>
-  </form>
-  <view wx:if="{{item}}" class="card result">
-    <view class="name">{{item.name}}（{{item.category}}）</view>
-    <view>{{item.method}}</view>
+  <view class="sub">通过聊天让 AI 推荐菜品</view>
+
+  <view class="card chat-box">
+    <scroll-view class="chat-scroll" scroll-y="true" scroll-into-view="{{lastId}}" style="height: 560rpx;">
+      <view id="top"></view>
+      <view wx:for="{{messages}}" wx:key="id" id="{{item.id}}" class="msg {{item.role}}">
+        <view wx:if="{{item.type==='text'}}">{{item.text}}</view>
+        <view wx:elif="{{item.type==='rec'}}" class="rec">
+          <view>菜名：{{item.rec.name}}</view>
+          <view>食材：{{item.rec.ingredientsText}}</view>
+          <view>做法：</view>
+          <block wx:if="{{item.rec.steps && item.rec.steps.length}}">
+            <view wx:for="{{item.rec.steps}}" wx:key="index">第{{index+1}}步：{{item}}；</view>
+          </block>
+          <block wx:else>
+            <view>{{item.rec.method}}</view>
+          </block>
+          <view class="actions">
+            <button class="btn btn-secondary" disabled="{{loading}}" bindtap="reject">不满意，继续推荐</button>
+            <button class="btn btn-primary" disabled="{{loading}}" bindtap="accept">满意，加入购物车</button>
+          </view>
+        </view>
+      </view>
+    </scroll-view>
+    <form bindsubmit="send" class="send-row">
+      <input name="content" class="send-input" placeholder="输入需求，如：清淡素菜"/>
+      <button formType="submit" class="btn btn-primary" disabled="{{loading}}">发送</button>
+    </form>
   </view>
 </view>

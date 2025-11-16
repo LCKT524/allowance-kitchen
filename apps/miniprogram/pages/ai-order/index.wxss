@@ -1,4 +1,10 @@
 @import "../../styles/theme.wxss";
-.input{border:1px solid #ddd;padding:12rpx;margin:12rpx 0;height:200rpx;border-radius:12rpx}
-.result{margin-top:16rpx}
-.name{font-size:34rpx;margin-bottom:8rpx}
+.chat-box{padding:0}
+.chat-scroll{padding:24rpx}
+.msg{margin-bottom:20rpx}
+.msg.user{display:flex;justify-content:flex-end}
+.msg.assistant{display:block}
+.msg .rec{background:#fff;border-radius:16rpx;box-shadow:0 8rpx 24rpx rgba(0,0,0,0.06);padding:20rpx}
+.actions{display:flex;gap:12rpx;margin-top:12rpx}
+.send-row{display:flex;gap:12rpx;padding:12rpx;border-top:1px solid #eee}
+.send-input{flex:1;border:1px solid #ddd;border-radius:12rpx;padding:16rpx}

@@ -1,12 +1,54 @@
-<view class="page-wrap">
-  <view class="header">点餐</view>
-  <view class="sub">选择菜品与数量</view>
-  <view class="list">
-    <view wx:for="{{menus}}" wx:key="id" class="card list-item">
-      <checkbox checked="{{selected[item.id]}}" data-id="{{item.id}}" bindchange="toggle">{{item.name}}</checkbox>
-      <input class="qty" type="number" value="{{quantities[item.id]||1}}" data-id="{{item.id}}" bindinput="setQty" />
+<view class="order-page">
+  <view class="top card">
+    <view class="top-left">
+      <view class="store-line">
+        <text class="store-name">{{storeName}}</text>
+        <text class="chevron">▼</text>
+      </view>
+      <view class="distance">距离{{distance}}</view>
+    </view>
+    <view class="top-right">
+      <view class="type-tabs">
+        <view class="type-tab {{orderType==='dine_in'?'active':''}}" data-type="dine_in" bindtap="switchType">堂食</view>
+        <view class="type-tab {{orderType==='takeout'?'active':''}}" data-type="takeout" bindtap="switchType">外卖</view>
+      </view>
     </view>
   </view>
-  <button bindtap="submit" class="btn btn-primary">提交订单</button>
-  <navigator url="/pages/ai-order/index" class="btn btn-secondary" style="margin-top:12rpx;display:inline-block;">去 AI 点餐</navigator>
+
+  <view class="content">
+    <scroll-view class="sidebar" scroll-y="{{true}}">
+      <view class="side-item {{currentCategory===item.id?'active':''}}" wx:for="{{categories}}" wx:key="id" data-id="{{item.id}}" bindtap="selectCategory">
+        <view class="side-icon">{{item.icon}}</view>
+        <view class="side-text">{{item.name}}</view>
+      </view>
+    </scroll-view>
+
+    <scroll-view class="products" scroll-y="{{true}}">
+      <view class="product-card card" wx:for="{{filteredMenus}}" wx:key="id">
+        <view class="prod-image"></view>
+        <view class="prod-info">
+          <view class="prod-title">{{item.name}}</view>
+          <view class="tags">
+            <view class="discount">5.4折</view>
+          </view>
+          <view class="prod-bottom">
+            <view class="price">¥{{item.price}}</view>
+            <view class="qty-controls">
+              <view class="qty-btn" data-id="{{item.id}}" bindtap="decrease">-</view>
+              <view class="qty-num">{{quantities[item.id]||0}}</view>
+              <view class="qty-btn primary" data-id="{{item.id}}" bindtap="increase">+</view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </scroll-view>
+  </view>
+
+  <view class="cart-bar">
+    <view class="cart-pill">
+      <view class="cart-badge">{{cartCount}}</view>
+      <text class="cart-total">¥ {{totalDisplay}}</text>
+    </view>
+    <button class="checkout-btn" bindtap="submit">去下单</button>
+  </view>
 </view>
