@@ -1,0 +1,10 @@
+@import "../../styles/theme.wxss";
+.chat-wrap{padding:24rpx}
+.chat-header{font-size:32rpx;color:#333;margin-bottom:4rpx}
+.chat-sub{font-size:24rpx;color:#888;margin-bottom:12rpx}
+.msgbox{height:480rpx;background:#fff;border-radius:12rpx;padding:12rpx;box-shadow:0 8rpx 18rpx rgba(0,0,0,0.06)}
+.message{padding:8rpx 0;border-bottom:1px solid #f3f3f3;font-size:26rpx;color:#333}
+.message:last-child{border-bottom:none}
+.chat-form{display:flex;gap:12rpx;margin-top:12rpx}
+.chat-input{flex:1;background:#fff;border:1px solid #eee;border-radius:12rpx;padding:12rpx;font-size:26rpx}
+.chat-send{background:#ff7a45;color:#fff;border:none;border-radius:12rpx;padding:12rpx 20rpx;font-size:26rpx}

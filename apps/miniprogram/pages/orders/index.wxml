@@ -21,6 +21,11 @@
       <view class="actions">
         <navigator url="/pages/order-detail/index?id={{item.id}}" class="btn btn-secondary">查看</navigator>
         <button wx:if="{{tab==='available'}}" bindtap="accept" data-id="{{item.id}}" class="btn btn-primary">接单</button>
+        <block wx:if="{{tab==='mine'}}">
+          <button wx:if="{{item.status==='accepted'}}" bindtap="start" data-id="{{item.id}}" class="btn btn-primary">开始制作</button>
+          <button wx:if="{{item.status==='accepted'}}" bindtap="cancel" data-id="{{item.id}}" class="btn btn-secondary">取消接单</button>
+          <button wx:if="{{item.status==='in_progress'}}" bindtap="complete" data-id="{{item.id}}" class="btn btn-primary">完成订单</button>
+        </block>
       </view>
     </view>
   </view>

@@ -175,6 +175,9 @@ export default async function handler(req, res) {
   const query = urlObj.searchParams;
   if (pathname.endsWith("/order/create") && req.method === "POST") return create(req, res);
   if (pathname.endsWith("/order/accept") && req.method === "POST") return accept(req, res);
+  if (pathname.endsWith("/order/start") && req.method === "POST") return start(req, res);
+  if (pathname.endsWith("/order/complete") && req.method === "POST") return complete(req, res);
+  if (pathname.endsWith("/order/cancel") && req.method === "POST") return cancel(req, res);
   if (pathname.endsWith("/order/detail") && req.method === "GET") return detail(req, res, query);
   if (pathname.endsWith("/order/messages/send") && req.method === "POST") return messagesSend(req, res);
   if (pathname.endsWith("/order/messages/list") && req.method === "GET") return messagesList(req, res, query);

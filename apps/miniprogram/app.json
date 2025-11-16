@@ -8,7 +8,8 @@
     "pages/order/index",
     "pages/orders/index",
     "pages/order-detail/index",
-    "pages/ai-order/index"
+    "pages/ai-order/index",
+    "pages/chat/index"
   ],
   "window": {
     "navigationBarTitleText": "零花钱厨房",
